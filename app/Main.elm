@@ -14,12 +14,6 @@ main =
     program { init = (init { addresses = [] }), update = update, view = view, subscriptions = (\_ -> Sub.none) }
 
 
-type alias Model =
-    { wallets : List Wallet
-    , newAddress : String
-    }
-
-
 type alias Flags =
     { addresses : List String
     }
