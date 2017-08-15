@@ -1,6 +1,11 @@
-module Styles exposing (shell, wallet, newWallet)
+module Styles exposing (shell, wallet, newWallet, form, addressInput, addButton)
 
 import Css exposing (..)
+
+
+standardFont : List Style -> List Style
+standardFont styles =
+    (fontFamily sansSerif) :: styles
 
 
 shell : List Style
@@ -26,4 +31,22 @@ newWallet : List Style
 newWallet =
     [ flex (int 1)
     , backgroundColor <| hex "000"
+    , flexFlow2 noWrap row
+    , alignItems center
+    , displayFlex
     ]
+
+
+form : List Style
+form =
+    [ flex (int 1), textAlign center ]
+
+
+addressInput : List Style
+addressInput =
+    [ height (px 30), boxSizing borderBox, minWidth (px 300) ] |> standardFont
+
+
+addButton : List Style
+addButton =
+    [ height (px 30), width (px 30), boxSizing borderBox ] |> standardFont

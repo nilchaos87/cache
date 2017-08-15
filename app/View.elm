@@ -26,4 +26,19 @@ wallet wallet =
 
 newWallet : String -> Html Msg
 newWallet newAddress =
-    div [ style Styles.newWallet ] [ input [ onInput Input, value newAddress ] [], button [ onClick Add ] [ text "Add" ] ]
+    div [ style Styles.newWallet ] [ form newAddress ]
+
+
+form : String -> Html Msg
+form newAddress =
+    div [ style Styles.form ] [ addressInput newAddress, addButton ]
+
+
+addressInput : String -> Html Msg
+addressInput newAddress =
+    input [ onInput Input, value newAddress, style Styles.addressInput ] []
+
+
+addButton : Html Msg
+addButton =
+    button [ onClick Add, style Styles.addButton ] [ text "+" ]
