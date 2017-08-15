@@ -4,6 +4,7 @@ import Html exposing (Html, program, div, input, button, text)
 import Html.Attributes exposing (value)
 import Html.Events exposing (onInput, onClick)
 import Http
+import Css exposing (Style, displayFlex, flexFlow2, noWrap, column, alignItems, stretch)
 import Data.Balance
 
 
@@ -60,7 +61,7 @@ update msg model =
             ( { model | newAddress = newAddress }, Cmd.none )
 
         Add ->
-            ( { model | wallets = (wallet model.newAddress) :: model.wallets, newAddress = "" }, fetchBalance model.newAddress )
+            ( { model | wallets = List.append model.wallets [ wallet model.newAddress ], newAddress = "" }, fetchBalance model.newAddress )
 
         UpdateBalance address result ->
             case result of
@@ -90,11 +91,24 @@ updateError address error wallet =
         wallet
 
 
+style : List Style -> Html.Attribute msg
+style =
+    Css.asPairs >> Html.Attributes.style
+
+
+viewStyles : List Style
+viewStyles =
+    [ displayFlex
+    , flexFlow2 noWrap column
+    , alignItems stretch
+    ]
+
+
 view : Model -> Html Msg
 view model =
-    div []
-        [ div [] [ input [ onInput Input, value model.newAddress ] [], button [ onClick Add ] [ text "Add" ] ]
-        , div [] (List.map walletView model.wallets)
+    div [ style viewStyles ]
+        [ div [] (List.map walletView model.wallets)
+        , div [] [ input [ onInput Input, value model.newAddress ] [], button [ onClick Add ] [ text "Add" ] ]
         ]
 
 
