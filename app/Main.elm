@@ -6,25 +6,11 @@ import Html.Events exposing (onInput, onClick)
 import Http
 import Css exposing (Style, displayFlex, flexFlow2, noWrap, column, alignItems, stretch, flex, position, absolute, top, right, bottom, left, px, int, backgroundColor, hex)
 import Data.Balance
+import Data.Wallet exposing (Wallet, wallet)
 
 
 main =
     program { init = (init { addresses = [] }), update = update, view = view, subscriptions = (\_ -> Sub.none) }
-
-
-type alias Wallet =
-    { address : String
-    , balance : Maybe Float
-    , error : Maybe String
-    }
-
-
-wallet : String -> Wallet
-wallet address =
-    { address = address
-    , balance = Nothing
-    , error = Nothing
-    }
 
 
 type alias Model =
