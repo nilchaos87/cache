@@ -4,6 +4,7 @@ import Html exposing (Html, program, div, input, button, text)
 import Html.Attributes exposing (value)
 import Html.Events exposing (onInput, onClick)
 import Css exposing (Style, displayFlex, flexFlow2, noWrap, column, alignItems, stretch, flex, position, absolute, top, right, bottom, left, px, int, backgroundColor, hex)
+import Css.Html exposing (style)
 import Data.Wallet exposing (Wallet, wallet)
 import Model exposing (Model)
 import Update exposing (Msg(Input, Add, Remove), fetchBalance, update)
@@ -21,11 +22,6 @@ type alias Flags =
 init : Flags -> ( Model, Cmd Msg )
 init { addresses } =
     ( { wallets = List.map wallet addresses, newAddress = "" }, Cmd.batch <| List.map fetchBalance addresses )
-
-
-style : List Style -> Html.Attribute msg
-style =
-    Css.asPairs >> Html.Attributes.style
 
 
 viewStyles : List Style
