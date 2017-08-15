@@ -7,6 +7,7 @@ import Http
 import Css exposing (Style, displayFlex, flexFlow2, noWrap, column, alignItems, stretch, flex, position, absolute, top, right, bottom, left, px, int, backgroundColor, hex)
 import Data.Balance
 import Data.Wallet exposing (Wallet, wallet)
+import Model exposing (Model)
 
 
 main =
