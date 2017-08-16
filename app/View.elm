@@ -16,12 +16,12 @@ view =
 
 shell : Model -> Html Msg
 shell model =
-    div [ style Styles.shell ] <| List.append (List.map wallet model.wallets) [ newWallet model.newAddress ]
+    div [ style Styles.shell ] <| List.append (List.indexedMap wallet model.wallets) [ newWallet model.newAddress ]
 
 
-wallet : Wallet -> Html Msg
-wallet wallet =
-    div [ style Styles.wallet ] [ button [ onClick <| Remove wallet.address ] [ text "-" ], text (wallet.address ++ " - " ++ (toString wallet.balance)) ]
+wallet : Int -> Wallet -> Html Msg
+wallet index wallet =
+    div [ style <| Styles.wallet index ] [ button [ onClick <| Remove wallet.address ] [ text "-" ], text (wallet.address ++ " - " ++ (toString wallet.balance)) ]
 
 
 newWallet : String -> Html Msg
