@@ -1,4 +1,4 @@
-module Update exposing (Msg(Input, Add, UpdateBalance, Remove), update, fetchBalance)
+port module Update exposing (Msg(Input, Add, UpdateBalance, Remove), save, update, fetchBalance)
 
 import Data.Balance as Balance
 import Data.Wallet exposing (Wallet, wallet)
@@ -17,6 +17,9 @@ fetchBalance =
     Balance.fetchBalance UpdateBalance
 
 
+port save : List String -> Cmd msg
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -24,7 +27,11 @@ update msg model =
             ( { model | newAddress = newAddress }, Cmd.none )
 
         Add ->
-            ( { model | wallets = List.append model.wallets [ wallet model.newAddress ], newAddress = "" }, fetchBalance model.newAddress )
+            let
+                wallets =
+                    List.append model.wallets [ wallet model.newAddress ]
+            in
+                ( { model | wallets = wallets, newAddress = "" }, Cmd.batch [ fetchBalance model.newAddress, List.map (\wallet -> wallet.address) wallets |> save ] )
 
         UpdateBalance address result ->
             case result of

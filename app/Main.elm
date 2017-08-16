@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html exposing (program)
+import Html exposing (programWithFlags)
 import Model exposing (Model)
 import Data.Wallet exposing (wallet)
 import Update exposing (Msg, fetchBalance, update)
@@ -8,7 +8,7 @@ import View exposing (view)
 
 
 main =
-    program { init = (init { addresses = [] }), update = update, view = view, subscriptions = (\_ -> Sub.none) }
+    programWithFlags { init = init, update = update, view = view, subscriptions = (\_ -> Sub.none) }
 
 
 type alias Flags =
