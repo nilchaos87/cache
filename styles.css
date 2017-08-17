@@ -16,11 +16,8 @@
     flex-align: stretch;
 }
 
-.new-wallet, .wallet {
-    padding: 1rem;
-}
-
 .wallet {
+    padding: 1rem;
     flex: 3;
     color: #fff;
 }
@@ -54,17 +51,25 @@
 .new-wallet {
     background: #000;
     flex: 1;
+    position: relative;
+    padding: 1rem;
 }
 
-.new-wallet input {
+.wallet-form {
+    position: absolute;
+    top: calc(50% - 15px);
+    left: 0;
+    right: 0;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.wallet-form input {
+    width: 300px;
     height: 30px;
-    width: 100%;
-    max-width: 300px;
-    flex: 1;
 }
 
-.new-wallet button {
+.wallet-form button {
     height: 30px;
     width: 30px;
-    flex: 1;
 }
