@@ -55,6 +55,30 @@
     padding: 1rem;
 }
 
+.new-wallet .address {
+    background: #333;
+    color: #fff;
+    border: 1px solid #666;
+}
+
+.new-wallet .address:placeholder {
+    color: #fff;
+}
+
+.new-wallet .add {
+    background: #666;
+    color: #fff;
+    cursor: pointer;
+}
+
+.new-wallet .add:hover {
+    background: #999;
+}
+
+.new-wallet .add:active {
+    background: #888;
+}
+
 .wallet-form {
     position: absolute;
     top: calc(50% - 15px);
@@ -67,9 +91,15 @@
 .wallet-form input {
     width: 300px;
     height: 30px;
+    outline: none;
+    padding: 0.5rem;
+    font-size: 1.2rem;
 }
 
 .wallet-form button {
     height: 30px;
     width: 30px;
+    border: 0;
+    outline: none;
+    font-size: 1.2rem;
 }

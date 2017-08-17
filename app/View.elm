@@ -1,7 +1,7 @@
 module View exposing (view)
 
 import Html exposing (Html, div, input, button, text)
-import Html.Attributes exposing (class, value)
+import Html.Attributes exposing (class, value, placeholder)
 import Html.Events exposing (onInput, onClick)
 import Model exposing (Model)
 import Data.Wallet exposing (Wallet)
@@ -56,7 +56,7 @@ walletForm newAddress =
 
 addressInput : String -> Html Msg
 addressInput newAddress =
-    input [ onInput Input, value newAddress, class "address" ] []
+    input [ onInput Input, value newAddress, class "address", placeholder "New wallet address" ] []
 
 
 addButton : Html Msg

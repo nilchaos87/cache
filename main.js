@@ -9226,7 +9226,11 @@ var _user$project$View$addressInput = function (newAddress) {
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$class('address'),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('New wallet address'),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		},
