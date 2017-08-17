@@ -59,11 +59,11 @@ palette dataIndex =
                 palette
 
             Nothing ->
-                { lightest = hex "ccc"
+                { lightest = hex "fff"
                 , lighter = hex "999"
-                , medium = hex "777"
-                , darker = hex "555"
-                , darkest = hex "333"
+                , medium = hex "666"
+                , darker = hex "444"
+                , darkest = hex "111"
                 }
 
 
