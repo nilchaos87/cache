@@ -10,23 +10,40 @@ standardFont styles =
 
 
 type alias Palette =
-    { dark : Color
+    { lightest : Color
+    , lighter : Color
     , medium : Color
-    , light : Color
+    , darker : Color
+    , darkest : Color
     }
-
-
-defaultPalette : Palette
-defaultPalette =
-    { dark = hex "333", medium = hex "888", light = hex "ddd" }
 
 
 palettes : Array Palette
 palettes =
-    [ { dark = hex "500", medium = hex "aa3939", light = hex "faa" }
-    , { dark = hex "552600", medium = hex "aa6c39", light = hex "ffd1aa" }
-    , { dark = hex "033", medium = hex "266", light = hex "699" }
-    , { dark = hex "040", medium = hex "2d882d", light = hex "8c8" }
+    [ { lightest = hex "ce763a"
+      , lighter = hex "ffe2ce"
+      , medium = hex "feb27f"
+      , darker = hex "99470f"
+      , darkest = hex "481d00"
+      }
+    , { lightest = hex "ce983a"
+      , lighter = hex "ffedce"
+      , medium = hex "fed07f"
+      , darker = hex "99670f"
+      , darkest = hex "482e00"
+      }
+    , { lightest = hex "2f5288"
+      , lighter = hex "bbcbe3"
+      , medium = hex "5c79a8"
+      , darker = hex "123265"
+      , darkest = hex "021430"
+      }
+    , { lightest = hex "258273"
+      , lighter = hex "b5e0d9"
+      , medium = hex "50a194"
+      , darker = hex "0a6152"
+      , darkest = hex "002e26"
+      }
     ]
         |> Array.fromList
 
@@ -42,7 +59,12 @@ palette dataIndex =
                 palette
 
             Nothing ->
-                defaultPalette
+                { lightest = hex "ccc"
+                , lighter = hex "999"
+                , medium = hex "777"
+                , darker = hex "555"
+                , darkest = hex "333"
+                }
 
 
 shell : List Style
@@ -66,10 +88,8 @@ wallet index =
             palette index
     in
         [ flex (int 3)
-        , backgroundColor colors.dark
-        , color colors.light
-        , borderTop3 (px 1) solid colors.medium
-        , borderBottom3 (px 1) solid <| hex "000"
+        , backgroundColor <| colors.darkest
+        , color <| colors.lightest
         , padding (px 10)
         ]
 
