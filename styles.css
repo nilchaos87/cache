@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+.shell {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    flex-align: stretch;
+}
+
+.wallet {
+    padding: 0.5rem;
+    flex: 1;
+    color: #fff;
+}
+
+.wallet:nth-child(4n+1) {
+    background: #482e00;
+}
+
+.wallet:nth-child(4n+1) {
+    background: #021430;
+}
+
+.wallet:nth-child(4n+1) {
+    background: #481d00;
+}
+
+.wallet:nth-child(4n) {
+    background: #002e26;
+}
+
+.wallet .address {}
+
+.wallet .balance {
+    font-size: 2rem;
+}
+
+.new-wallet {
+    background: #000;
+    flex: 1;
+    text-align: center;
+}
+
+.new-wallet input {
+    height: 30px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.new-wallet button {
+    height: 30px;
+    width: 30px;
+}

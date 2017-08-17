@@ -3,11 +3,9 @@ module View exposing (view)
 import Html exposing (Html, div, input, button, text)
 import Html.Attributes exposing (value)
 import Html.Events exposing (onInput, onClick)
-import Css.Html exposing (style)
 import Model exposing (Model)
 import Data.Wallet exposing (Wallet)
 import Update exposing (Msg(Input, Add, Remove))
-import Styles
 
 
 view =
@@ -16,12 +14,12 @@ view =
 
 shell : Model -> Html Msg
 shell model =
-    div [ style Styles.shell ] <| List.append (List.indexedMap wallet model.wallets) [ newWallet model.newAddress ]
+    div [ class "shell" ] <| List.append (List.map wallet model.wallets) [ newWallet model.newAddress ]
 
 
-wallet : Int -> Wallet -> Html Msg
-wallet index wallet =
-    div [ style <| Styles.wallet index ]
+wallet : Wallet -> Html Msg
+wallet wallet =
+    div [ class "wallet" ]
         [ address wallet.address
         , balance wallet.balance
         , button [ onClick <| Remove wallet.address ] [ text "-" ]
@@ -30,7 +28,7 @@ wallet index wallet =
 
 address : String -> Html msg
 address content =
-    div [ style Styles.address ] [ text content ]
+    div [ class "address" ] [ text content ]
 
 
 balance : Maybe Float -> Html msg
@@ -44,24 +42,19 @@ balance bal =
                 Nothing ->
                     "--"
     in
-        div [ style Styles.balance ] [ text content ]
+        div [ class "balance" ] [ text content ]
 
 
 newWallet : String -> Html Msg
 newWallet newAddress =
-    div [ style Styles.newWallet ] [ form newAddress ]
-
-
-form : String -> Html Msg
-form newAddress =
-    div [ style Styles.form ] [ addressInput newAddress, addButton ]
+    div [ class "new-wallet" ] [ addressInput newAddress, addButton ]
 
 
 addressInput : String -> Html Msg
 addressInput newAddress =
-    input [ onInput Input, value newAddress, style Styles.addressInput ] []
+    input [ onInput Input, value newAddress, class "address" ] []
 
 
 addButton : Html Msg
 addButton =
-    button [ onClick Add, style Styles.addButton ] [ text "+" ]
+    button [ onClick Add, class "add" ] [ text "+" ]
