@@ -16,26 +16,33 @@
     flex-align: stretch;
 }
 
+.new-wallet, .wallet {
+    padding: 1rem;
+}
+
 .wallet {
-    padding: 0.5rem;
-    flex: 1;
+    flex: 3;
     color: #fff;
 }
 
 .wallet:nth-child(4n+1) {
     background: #482e00;
+    color: #c7ad7f;
 }
 
-.wallet:nth-child(4n+1) {
+.wallet:nth-child(4n+2) {
     background: #021430;
+    color: #8193af;
 }
 
-.wallet:nth-child(4n+1) {
+.wallet:nth-child(4n+3) {
     background: #481d00;
+    color: #c79c7f;
 }
 
 .wallet:nth-child(4n) {
     background: #002e26;
+    color: #7fada5;
 }
 
 .wallet .address {}
@@ -47,16 +54,17 @@
 .new-wallet {
     background: #000;
     flex: 1;
-    text-align: center;
 }
 
 .new-wallet input {
     height: 30px;
     width: 100%;
     max-width: 300px;
+    flex: 1;
 }
 
 .new-wallet button {
     height: 30px;
     width: 30px;
+    flex: 1;
 }

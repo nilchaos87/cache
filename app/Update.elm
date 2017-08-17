@@ -20,6 +20,11 @@ fetchBalance =
 port save : List String -> Cmd msg
 
 
+saveWallets : List Wallet -> Cmd msg
+saveWallets wallets =
+    List.map (\wallet -> wallet.address) wallets |> save
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -31,7 +36,7 @@ update msg model =
                 wallets =
                     List.append model.wallets [ wallet model.newAddress ]
             in
-                ( { model | wallets = wallets, newAddress = "" }, Cmd.batch [ fetchBalance model.newAddress, List.map (\wallet -> wallet.address) wallets |> save ] )
+                ( { model | wallets = wallets, newAddress = "" }, Cmd.batch [ fetchBalance model.newAddress, saveWallets wallets ] )
 
         UpdateBalance address result ->
             case result of
@@ -42,7 +47,11 @@ update msg model =
                     ( { model | wallets = List.map (\wallet -> updateError address "Error updating wallet balance" wallet) model.wallets }, Cmd.none )
 
         Remove address ->
-            ( { model | wallets = List.filter (\wallet -> wallet.address /= address) model.wallets }, Cmd.none )
+            let
+                wallets =
+                    List.filter (\wallet -> wallet.address /= address) model.wallets
+            in
+                ( { model | wallets = wallets }, saveWallets wallets )
 
 
 updateBalance : String -> Float -> Wallet -> Wallet

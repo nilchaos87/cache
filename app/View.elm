@@ -1,7 +1,7 @@
 module View exposing (view)
 
 import Html exposing (Html, div, input, button, text)
-import Html.Attributes exposing (value)
+import Html.Attributes exposing (class, value)
 import Html.Events exposing (onInput, onClick)
 import Model exposing (Model)
 import Data.Wallet exposing (Wallet)
