@@ -1,12 +1,12 @@
-module Styles exposing (shell, wallet, newWallet, form, addressInput, addButton)
+module Styles exposing (..)
 
 import Array exposing (Array)
 import Css exposing (..)
 
 
-standardFont : List Style -> List Style
-standardFont styles =
-    (fontFamily sansSerif) :: styles
+standardFont : Style
+standardFont =
+    fontFamily sansSerif
 
 
 type alias Palette =
@@ -20,13 +20,7 @@ type alias Palette =
 
 palettes : Array Palette
 palettes =
-    [ { lightest = hex "ce763a"
-      , lighter = hex "ffe2ce"
-      , medium = hex "feb27f"
-      , darker = hex "99470f"
-      , darkest = hex "481d00"
-      }
-    , { lightest = hex "ce983a"
+    [ { lightest = hex "ce983a"
       , lighter = hex "ffedce"
       , medium = hex "fed07f"
       , darker = hex "99670f"
@@ -37,6 +31,12 @@ palettes =
       , medium = hex "5c79a8"
       , darker = hex "123265"
       , darkest = hex "021430"
+      }
+    , { lightest = hex "ce763a"
+      , lighter = hex "ffe2ce"
+      , medium = hex "feb27f"
+      , darker = hex "99470f"
+      , darkest = hex "481d00"
       }
     , { lightest = hex "258273"
       , lighter = hex "b5e0d9"
@@ -77,8 +77,8 @@ shell =
     , right (px 0)
     , bottom (px 0)
     , left (px 0)
+    , standardFont
     ]
-        |> standardFont
 
 
 wallet : Int -> List Style
@@ -87,11 +87,21 @@ wallet index =
         colors =
             palette index
     in
-        [ flex (int 3)
+        [ flex (int 1)
         , backgroundColor <| colors.darkest
         , color <| colors.lightest
         , padding (px 10)
         ]
+
+
+address : List Style
+address =
+    []
+
+
+balance : List Style
+balance =
+    [ fontSize (Css.rem 2) ]
 
 
 newWallet : List Style
@@ -111,9 +121,9 @@ form =
 
 addressInput : List Style
 addressInput =
-    [ height (px 30), boxSizing borderBox, minWidth (px 300) ] |> standardFont
+    [ height (px 30), boxSizing borderBox, minWidth (px 300), standardFont ]
 
 
 addButton : List Style
 addButton =
-    [ height (px 30), width (px 30), boxSizing borderBox ] |> standardFont
+    [ height (px 30), width (px 30), boxSizing borderBox, standardFont ]

@@ -21,7 +21,30 @@ shell model =
 
 wallet : Int -> Wallet -> Html Msg
 wallet index wallet =
-    div [ style <| Styles.wallet index ] [ button [ onClick <| Remove wallet.address ] [ text "-" ], text (wallet.address ++ " - " ++ (toString wallet.balance)) ]
+    div [ style <| Styles.wallet index ]
+        [ address wallet.address
+        , balance wallet.balance
+        , button [ onClick <| Remove wallet.address ] [ text "-" ]
+        ]
+
+
+address : String -> Html msg
+address content =
+    div [ style Styles.address ] [ text content ]
+
+
+balance : Maybe Float -> Html msg
+balance bal =
+    let
+        content =
+            case bal of
+                Just b ->
+                    (toString b)
+
+                Nothing ->
+                    "--"
+    in
+        div [ style Styles.balance ] [ text content ]
 
 
 newWallet : String -> Html Msg
