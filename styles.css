@@ -60,6 +60,7 @@
 .new-wallet .address, .new-wallet .add {
     font-size: 1.5rem;
     height: 2rem;
+    border-radius: 0;
 }
 
 .new-wallet .address {
