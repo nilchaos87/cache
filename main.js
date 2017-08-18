@@ -9246,12 +9246,19 @@ var _user$project$View$newWallet = function (newAddress) {
 		},
 		{
 			ctor: '::',
-			_0: _user$project$View$addressInput(newAddress),
-			_1: {
-				ctor: '::',
-				_0: _user$project$View$addButton,
-				_1: {ctor: '[]'}
-			}
+			_0: A2(
+				_elm_lang$html$Html$fieldset,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _user$project$View$addressInput(newAddress),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$addButton,
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
 		});
 };
 var _user$project$View$balance = function (bal) {

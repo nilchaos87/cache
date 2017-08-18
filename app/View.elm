@@ -1,6 +1,6 @@
 module View exposing (view)
 
-import Html exposing (Html, div, input, button, text)
+import Html exposing (Html, div, fieldset, input, button, text)
 import Html.Attributes exposing (class, value, placeholder)
 import Html.Events exposing (onInput, onClick)
 import Model exposing (Model)
@@ -52,7 +52,7 @@ balance bal =
 
 newWallet : String -> Html Msg
 newWallet newAddress =
-    div [ class "new-wallet" ] [ addressInput newAddress, addButton ]
+    div [ class "new-wallet" ] [ fieldset [] [ addressInput newAddress, addButton ] ]
 
 
 addressInput : String -> Html Msg

@@ -7,9 +7,14 @@
   }
 }
 
+@walletPadding: 1rem;
+@newWalletHeight: 5rem;
+
 * {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 .shell, .wallets, .new-wallet {
@@ -24,12 +29,12 @@
 }
 
 .wallet, .new-wallet {
-    padding: 1rem;
+    padding: @walletPadding;
 }
 
 .wallets {
     top: 0;
-    bottom: 4rem;
+    bottom: @newWalletHeight;
 }
 
 .stretchItems(~'.wallet', 'height', 12);
@@ -56,5 +61,61 @@
 
 .new-wallet {
     bottom: 0;
-    height: 4rem;
+    height: @newWalletHeight;
+    text-align: center;
+    background: black;
+}
+
+.new-wallet fieldset {
+    display: inline-block;
+    width: 100%;
+    max-width: 480px;
+    border: 0;
+    position: relative;
+    height: @newWalletHeight - (@walletPadding * 2);
+}
+
+.new-wallet fieldset {
+    .address, .add {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        font-size: @newWalletHeight / 3;
+    }
+}
+
+.new-wallet .address {
+    padding-left: @newWalletHeight / 9;
+    left: 0;
+    border: 1px solid #999;
+    background: #333;
+    outline: none;
+    color: #fff;
+    width: 100%;
+
+    &:placeholder {
+        color: #999;
+    }
+}
+
+.new-wallet .add {
+    @size: (@newWalletHeight - @walletPadding * 2);
+    right: 0;
+    width: @size;
+    height: @size;
+    outline: none;
+    border: 0;
+    background-color: #666;
+    color: #000;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #999;
+        color: #fff;
+    }
+
+    &:active {
+        background-color: #777;
+        color: #fff;
+    }
 }

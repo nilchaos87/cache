@@ -2,6 +2,8 @@
 * {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  padding: 0;
+  margin: 0;
 }
 .shell,
 .wallets,
@@ -20,7 +22,7 @@
 }
 .wallets {
   top: 0;
-  bottom: 4rem;
+  bottom: 5rem;
 }
 .wallet:first-child:nth-last-child(1),
 .wallet:first-child:nth-last-child(1) ~ .wallet {
@@ -88,5 +90,52 @@
 }
 .new-wallet {
   bottom: 0;
-  height: 4rem;
+  height: 5rem;
+  text-align: center;
+  background: black;
+}
+.new-wallet fieldset {
+  display: inline-block;
+  width: 100%;
+  max-width: 480px;
+  border: 0;
+  position: relative;
+  height: 3rem;
+}
+.new-wallet fieldset .address,
+.new-wallet fieldset .add {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  font-size: 1.66666667rem;
+}
+.new-wallet .address {
+  padding-left: 0.55555556rem;
+  left: 0;
+  border: 1px solid #999;
+  background: #333;
+  outline: none;
+  color: #fff;
+  width: 100%;
+}
+.new-wallet .address:placeholder {
+  color: #999;
+}
+.new-wallet .add {
+  right: 0;
+  width: 3rem;
+  height: 3rem;
+  outline: none;
+  border: 0;
+  background-color: #666;
+  color: #000;
+  cursor: pointer;
+}
+.new-wallet .add:hover {
+  background-color: #999;
+  color: #fff;
+}
+.new-wallet .add:active {
+  background-color: #777;
+  color: #fff;
 }
