@@ -9236,24 +9236,6 @@ var _user$project$View$addressInput = function (newAddress) {
 		},
 		{ctor: '[]'});
 };
-var _user$project$View$walletForm = function (newAddress) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('wallet-form'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _user$project$View$addressInput(newAddress),
-			_1: {
-				ctor: '::',
-				_0: _user$project$View$addButton,
-				_1: {ctor: '[]'}
-			}
-		});
-};
 var _user$project$View$newWallet = function (newAddress) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9264,8 +9246,12 @@ var _user$project$View$newWallet = function (newAddress) {
 		},
 		{
 			ctor: '::',
-			_0: _user$project$View$walletForm(newAddress),
-			_1: {ctor: '[]'}
+			_0: _user$project$View$addressInput(newAddress),
+			_1: {
+				ctor: '::',
+				_0: _user$project$View$addButton,
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$View$balance = function (bal) {

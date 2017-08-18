@@ -47,11 +47,7 @@ balance bal =
 
 newWallet : String -> Html Msg
 newWallet newAddress =
-    div [ class "new-wallet" ] [ walletForm newAddress ]
-
-
-walletForm newAddress =
-    div [ class "wallet-form" ] [ addressInput newAddress, addButton ]
+    div [ class "new-wallet" ] [ addressInput newAddress, addButton ]
 
 
 addressInput : String -> Html Msg

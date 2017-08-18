@@ -16,8 +16,11 @@
     flex-align: stretch;
 }
 
-.wallet {
+.wallet, .new-wallet {
     padding: 1rem;
+}
+
+.wallet {
     flex: 3;
     color: #fff;
 }
@@ -50,56 +53,57 @@
 
 .new-wallet {
     background: #000;
-    flex: 1;
-    position: relative;
     padding: 1rem;
+    text-align: center;
+}
+
+.new-wallet .address, .new-wallet .add {
+    font-size: 1.5rem;
+    height: 2rem;
 }
 
 .new-wallet .address {
     background: #333;
     color: #fff;
     border: 1px solid #666;
+    border-right: 0;
+    padding-left: 0.3rem;
+    outline: none;
+    width: 40%;
 }
 
 .new-wallet .address:placeholder {
-    color: #fff;
+    color: #999;
+}
+
+@media (max-width: 420px) {
+    .new-wallet .address {
+        width: 100%;
+    }
+}
+
+@media (max-width: 840px) {
+    .new-wallet .address {
+        width: 70%;
+    }
 }
 
 .new-wallet .add {
     background: #666;
-    color: #fff;
+    color: #ccc;
     cursor: pointer;
+    border: 0;
+    width: 2rem;
+    padding: 0;
+    text-align: center;
 }
 
 .new-wallet .add:hover {
     background: #999;
+    color: #fff;
 }
 
 .new-wallet .add:active {
-    background: #888;
-}
-
-.wallet-form {
-    position: absolute;
-    top: calc(50% - 15px);
-    left: 0;
-    right: 0;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.wallet-form input {
-    width: 300px;
-    height: 30px;
-    outline: none;
-    padding: 0.5rem;
-    font-size: 1.2rem;
-}
-
-.wallet-form button {
-    height: 30px;
-    width: 30px;
-    border: 0;
-    outline: none;
-    font-size: 1.2rem;
+    background: #777;
+    color: #000;
 }
