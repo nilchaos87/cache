@@ -14,7 +14,12 @@ view =
 
 shell : Model -> Html Msg
 shell model =
-    div [ class "shell" ] <| List.append (List.map wallet model.wallets) [ newWallet model.newAddress ]
+    div [ class "shell" ] <| [ wallets model.wallets, newWallet model.newAddress ]
+
+
+wallets : List Wallet -> Html Msg
+wallets list =
+    List.map wallet list |> div [ class "wallets" ]
 
 
 wallet : Wallet -> Html Msg

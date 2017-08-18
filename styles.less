@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.stretchItems(@selector, @property, @counter) when (@counter > 0) {
+  .stretchItems(@selector, @property, (@counter - 1));
+  @{selector}:first-child:nth-last-child(@{counter}), @{selector}:first-child:nth-last-child(@{counter}) ~ @{selector} {
+    height: 100% / @counter;
+  }
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+.shell, .wallets, .new-wallet {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.shell {
+    top: 0;
+    bottom: 0;
+}
+
+.wallet, .new-wallet {
+    padding: 1rem;
+}
+
+.wallets {
+    top: 0;
+    bottom: 4rem;
+}
+
+.stretchItems(~'.wallet', 'height', 12);
+
+.wallet:nth-child(4n+1) {
+    background: #482e00;
+    color: #c7ad7f;
+}
+
+.wallet:nth-child(4n+2) {
+    background: #021430;
+    color: #8193af;
+}
+
+.wallet:nth-child(4n+3) {
+    background: #481d00;
+    color: #c79c7f;
+}
+
+.wallet:nth-child(4n) {
+    background: #002e26;
+    color: #7fada5;
+}
+
+.new-wallet {
+    bottom: 0;
+    height: 4rem;
+}

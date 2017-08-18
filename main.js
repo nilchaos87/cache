@@ -9324,6 +9324,16 @@ var _user$project$View$wallet = function (wallet) {
 			}
 		});
 };
+var _user$project$View$wallets = function (list) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('wallets'),
+			_1: {ctor: '[]'}
+		},
+		A2(_elm_lang$core$List$map, _user$project$View$wallet, list));
+};
 var _user$project$View$shell = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9332,14 +9342,15 @@ var _user$project$View$shell = function (model) {
 			_0: _elm_lang$html$Html_Attributes$class('shell'),
 			_1: {ctor: '[]'}
 		},
-		A2(
-			_elm_lang$core$List$append,
-			A2(_elm_lang$core$List$map, _user$project$View$wallet, model.wallets),
-			{
+		{
+			ctor: '::',
+			_0: _user$project$View$wallets(model.wallets),
+			_1: {
 				ctor: '::',
 				_0: _user$project$View$newWallet(model.newAddress),
 				_1: {ctor: '[]'}
-			}));
+			}
+		});
 };
 var _user$project$View$view = _user$project$View$shell;
 
