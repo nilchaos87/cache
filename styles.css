@@ -131,15 +131,18 @@
   height: 3rem;
   outline: none;
   border: 0;
-  background-color: #666;
-  color: #000;
+  background-color: #999;
+  color: #333;
   cursor: pointer;
 }
+.new-wallet .add:hover,
+.new-wallet .add:active {
+  border: 1px solid #999;
+  background: #ccc;
+}
 .new-wallet .add:hover {
-  background-color: #999;
-  color: #fff;
+  color: #666;
 }
 .new-wallet .add:active {
-  background-color: #777;
-  color: #fff;
+  color: #333;
 }

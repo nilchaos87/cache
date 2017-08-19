@@ -110,17 +110,20 @@
     height: @size;
     outline: none;
     border: 0;
-    background-color: #666;
-    color: #000;
+    background-color: #999;
+    color: #333;
     cursor: pointer;
 
+    &:hover, &:active {
+        border: 1px solid #999;
+        background: #ccc;
+    }
+
     &:hover {
-        background-color: #999;
-        color: #fff;
+        color: #666;
     }
 
     &:active {
-        background-color: #777;
-        color: #fff;
+        color: #333;
     }
 }

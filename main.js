@@ -9198,6 +9198,17 @@ var _user$project$Update$Input = function (a) {
 	return {ctor: 'Input', _0: a};
 };
 
+var _user$project$View$icon = function (name) {
+	return A2(
+		_elm_lang$html$Html$i,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class(
+				A2(_elm_lang$core$Basics_ops['++'], 'fa fa-', name)),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'});
+};
 var _user$project$View$addButton = A2(
 	_elm_lang$html$Html$button,
 	{
@@ -9211,7 +9222,7 @@ var _user$project$View$addButton = A2(
 	},
 	{
 		ctor: '::',
-		_0: _elm_lang$html$Html$text('+'),
+		_0: _user$project$View$icon('plus'),
 		_1: {ctor: '[]'}
 	});
 var _user$project$View$addressInput = function (newAddress) {

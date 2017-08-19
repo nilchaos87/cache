@@ -1,6 +1,6 @@
 module View exposing (view)
 
-import Html exposing (Html, div, fieldset, input, button, text)
+import Html exposing (Html, div, fieldset, input, button, text, i)
 import Html.Attributes exposing (class, value, placeholder)
 import Html.Events exposing (onInput, onClick)
 import Model exposing (Model)
@@ -62,4 +62,9 @@ addressInput newAddress =
 
 addButton : Html Msg
 addButton =
-    button [ onClick Add, class "add" ] [ text "+" ]
+    button [ onClick Add, class "add" ] [ icon "plus" ]
+
+
+icon : String -> Html msg
+icon name =
+    i [ class ("fa fa-" ++ name) ] []
