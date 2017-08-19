@@ -9033,12 +9033,51 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
-var _user$project$Data_Balance$decodeBalance = function () {
+var _user$project$Data_Currency$Litecoin = {ctor: 'Litecoin'};
+var _user$project$Data_Currency$Bitcoin = {ctor: 'Bitcoin'};
+var _user$project$Data_Currency$currency = function (address) {
+	return _elm_lang$core$Native_Utils.eq(
+		A2(_elm_lang$core$String$left, 1, address),
+		'L') ? _user$project$Data_Currency$Litecoin : _user$project$Data_Currency$Bitcoin;
+};
+
+var _user$project$Data_Balance$stringAsFloat = function () {
 	var convert = function (val) {
-		return _elm_lang$core$Json_Decode$succeed(val / 100000000);
+		var _p0 = _elm_lang$core$String$toFloat(val);
+		if (_p0.ctor === 'Ok') {
+			return _elm_lang$core$Json_Decode$succeed(_p0._0);
+		} else {
+			return _elm_lang$core$Json_Decode$fail(_p0._0);
+		}
 	};
-	return A2(_elm_lang$core$Json_Decode$andThen, convert, _elm_lang$core$Json_Decode$float);
+	return A2(_elm_lang$core$Json_Decode$andThen, convert, _elm_lang$core$Json_Decode$string);
 }();
+var _user$project$Data_Balance$decodeBalance = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'data',
+		_1: {
+			ctor: '::',
+			_0: 'confirmed_balance',
+			_1: {ctor: '[]'}
+		}
+	},
+	_user$project$Data_Balance$stringAsFloat);
+var _user$project$Data_Balance$walletPath = function (address) {
+	var _p1 = _user$project$Data_Currency$currency(address);
+	if (_p1.ctor === 'Bitcoin') {
+		return A2(_elm_lang$core$Basics_ops['++'], 'BTC/', address);
+	} else {
+		return A2(_elm_lang$core$Basics_ops['++'], 'LTC/', address);
+	}
+};
+var _user$project$Data_Balance$url = function (address) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'https://chain.so/api/v2/get_address_balance/',
+		_user$project$Data_Balance$walletPath(address));
+};
 var _user$project$Data_Balance$fetchBalance = F2(
 	function (msg, address) {
 		return A2(
@@ -9046,7 +9085,7 @@ var _user$project$Data_Balance$fetchBalance = F2(
 			msg(address),
 			A2(
 				_elm_lang$http$Http$get,
-				A2(_elm_lang$core$Basics_ops['++'], 'https://blockchain.info/q/addressbalance/', address),
+				_user$project$Data_Balance$url(address),
 				_user$project$Data_Balance$decodeBalance));
 	});
 
