@@ -9272,6 +9272,43 @@ var _user$project$View$newWallet = function (newAddress) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$View$actions = function (address) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('actions'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$button,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _user$project$View$icon('refresh'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Update$Remove(address)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _user$project$View$icon('trash'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$View$balance = function (bal) {
 	var content = function () {
 		var _p0 = bal;
@@ -9324,19 +9361,7 @@ var _user$project$View$wallet = function (wallet) {
 				_0: _user$project$View$balance(wallet.balance),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Update$Remove(wallet.address)),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('-'),
-							_1: {ctor: '[]'}
-						}),
+					_0: _user$project$View$actions(wallet.address),
 					_1: {ctor: '[]'}
 				}
 			}

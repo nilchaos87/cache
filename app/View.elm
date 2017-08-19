@@ -27,7 +27,7 @@ wallet wallet =
     div [ class "wallet" ]
         [ address wallet.address
         , balance wallet.balance
-        , button [ onClick <| Remove wallet.address ] [ text "-" ]
+        , actions wallet.address
         ]
 
 
@@ -48,6 +48,13 @@ balance bal =
                     "--"
     in
         div [ class "balance" ] [ text content ]
+
+
+actions address =
+    div [ class "actions" ]
+        [ button [] [ icon "refresh" ]
+        , button [ onClick <| Remove address ] [ icon "trash" ]
+        ]
 
 
 newWallet : String -> Html Msg

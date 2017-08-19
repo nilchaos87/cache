@@ -40,36 +40,72 @@
 
 .stretchItems(~'.wallet', 'height', 12);
 
-.wallet:nth-child(4n+1) {
-    background: #482e00;
-    color: #c7ad7f;
+button, input {
+    outline: none;
+}
+
+button {
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.styleWallet(@dark, @light) {
+    background: @dark;
+    color: @light;
 
     button {
-        background: #c7ad7f;
-        border: 0;
-        outline: none;
-        border-radius: 0;
-        color: #482e00;
+        border-color: @light;
+        color: @light;
+
+        &:hover, &:active {
+            background: @light;
+        }
+
+        &:hover {
+            color: @dark;
+        }
+
+        &:active {
+            color: black;
+        }
     }
 }
 
+.wallet:nth-child(4n+1) {
+    .styleWallet(#482e00, #c7ad7f);
+}
+
 .wallet:nth-child(4n+2) {
-    background: #021430;
-    color: #8193af;
+    .styleWallet(#021430, #8193af);
 }
 
 .wallet:nth-child(4n+3) {
-    background: #481d00;
-    color: #c79c7f;
+    .styleWallet(#481d00, #c79c7f);
 }
 
 .wallet:nth-child(4n) {
-    background: #002e26;
-    color: #7fada5;
+    .styleWallet(#002e26, #7fada5);
 }
 
 .wallet .balance {
     font-size: 2rem;
+}
+
+.wallet .actions {
+    margin-top: 0.75rem;
+
+    button {
+        margin-right: 0.25rem;
+    }
+}
+
+.wallet button {
+    @size: 1.75rem;
+    background: transparent;
+    border: 1px solid transparent;
+    font-size: @size * 0.75;
+    width: @size;
+    height: @size;
 }
 
 .new-wallet {
@@ -102,7 +138,6 @@
     left: 0;
     border: 1px solid #999;
     background: #333;
-    outline: none;
     color: #fff;
     width: 100%;
 
@@ -116,11 +151,9 @@
     right: 0;
     width: @size;
     height: @size;
-    outline: none;
     border: 0;
     background-color: #999;
     color: #333;
-    cursor: pointer;
 
     &:hover, &:active {
         border: 1px solid #999;

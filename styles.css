@@ -73,24 +73,101 @@
 .wallet:first-child:nth-last-child(12) ~ .wallet {
   height: 8.33333333%;
 }
+button,
+input {
+  outline: none;
+}
+button {
+  border-radius: 0;
+  cursor: pointer;
+}
 .wallet:nth-child(4n+1) {
   background: #482e00;
   color: #c7ad7f;
+}
+.wallet:nth-child(4n+1) button {
+  border-color: #c7ad7f;
+  color: #c7ad7f;
+}
+.wallet:nth-child(4n+1) button:hover,
+.wallet:nth-child(4n+1) button:active {
+  background: #c7ad7f;
+}
+.wallet:nth-child(4n+1) button:hover {
+  color: #482e00;
+}
+.wallet:nth-child(4n+1) button:active {
+  color: black;
 }
 .wallet:nth-child(4n+2) {
   background: #021430;
   color: #8193af;
 }
+.wallet:nth-child(4n+2) button {
+  border-color: #8193af;
+  color: #8193af;
+}
+.wallet:nth-child(4n+2) button:hover,
+.wallet:nth-child(4n+2) button:active {
+  background: #8193af;
+}
+.wallet:nth-child(4n+2) button:hover {
+  color: #021430;
+}
+.wallet:nth-child(4n+2) button:active {
+  color: black;
+}
 .wallet:nth-child(4n+3) {
   background: #481d00;
   color: #c79c7f;
+}
+.wallet:nth-child(4n+3) button {
+  border-color: #c79c7f;
+  color: #c79c7f;
+}
+.wallet:nth-child(4n+3) button:hover,
+.wallet:nth-child(4n+3) button:active {
+  background: #c79c7f;
+}
+.wallet:nth-child(4n+3) button:hover {
+  color: #481d00;
+}
+.wallet:nth-child(4n+3) button:active {
+  color: black;
 }
 .wallet:nth-child(4n) {
   background: #002e26;
   color: #7fada5;
 }
+.wallet:nth-child(4n) button {
+  border-color: #7fada5;
+  color: #7fada5;
+}
+.wallet:nth-child(4n) button:hover,
+.wallet:nth-child(4n) button:active {
+  background: #7fada5;
+}
+.wallet:nth-child(4n) button:hover {
+  color: #002e26;
+}
+.wallet:nth-child(4n) button:active {
+  color: black;
+}
 .wallet .balance {
   font-size: 2rem;
+}
+.wallet .actions {
+  margin-top: 0.75rem;
+}
+.wallet .actions button {
+  margin-right: 0.25rem;
+}
+.wallet button {
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 1.3125rem;
+  width: 1.75rem;
+  height: 1.75rem;
 }
 .new-wallet {
   bottom: 0;
@@ -118,7 +195,6 @@
   left: 0;
   border: 1px solid #999;
   background: #333;
-  outline: none;
   color: #fff;
   width: 100%;
 }
@@ -129,11 +205,9 @@
   right: 0;
   width: 3rem;
   height: 3rem;
-  outline: none;
   border: 0;
   background-color: #999;
   color: #333;
-  cursor: pointer;
 }
 .new-wallet .add:hover,
 .new-wallet .add:active {
