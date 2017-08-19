@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 * {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
@@ -87,6 +88,9 @@
 .wallet:nth-child(4n) {
   background: #002e26;
   color: #7fada5;
+}
+.wallet .balance {
+  font-size: 2rem;
 }
 .new-wallet {
   bottom: 0;
