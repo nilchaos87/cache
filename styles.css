@@ -156,8 +156,12 @@ button {
 .wallet .balance {
   font-size: 2rem;
 }
+.wallet .actions,
+.wallet .error {
+  display: inline-block;
+}
 .wallet .actions {
-  margin-top: 0.75rem;
+  margin-top: 0.25rem;
 }
 .wallet .actions button {
   margin-right: 0.25rem;
@@ -165,9 +169,9 @@ button {
 .wallet button {
   background: transparent;
   border: 1px solid transparent;
-  font-size: 1.3125rem;
-  width: 1.75rem;
-  height: 1.75rem;
+  font-size: 1.125rem;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 .new-wallet {
   bottom: 0;
@@ -192,6 +196,7 @@ button {
 }
 .new-wallet .address {
   padding-left: 0.55555556rem;
+  padding-right: 3rem;
   left: 0;
   border: 1px solid #999;
   background: #333;

@@ -24,11 +24,22 @@ wallets list =
 
 wallet : Wallet -> Html Msg
 wallet wallet =
-    div [ class "wallet" ]
-        [ address wallet.address
-        , balance wallet.balance
-        , actions wallet.address
-        ]
+    let
+        baseContent =
+            [ address wallet.address
+            , balance wallet.balance
+            , actions wallet.address
+            ]
+
+        content =
+            case wallet.error of
+                Just message ->
+                    List.append baseContent [ error message ]
+
+                Nothing ->
+                    baseContent
+    in
+        div [ class "wallet" ] content
 
 
 address : String -> Html msg
@@ -48,6 +59,11 @@ balance bal =
                     "--"
     in
         div [ class "balance" ] [ text content ]
+
+
+error : String -> Html msg
+error message =
+    div [ class "error" ] [ button [] [ icon "warning" ] ]
 
 
 actions address =

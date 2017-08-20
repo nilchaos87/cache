@@ -91,8 +91,14 @@ button {
     font-size: 2rem;
 }
 
+.wallet {
+    .actions, .error {
+        display: inline-block;
+    }
+}
+
 .wallet .actions {
-    margin-top: 0.75rem;
+    margin-top: 0.25rem;
 
     button {
         margin-right: 0.25rem;
@@ -100,7 +106,7 @@ button {
 }
 
 .wallet button {
-    @size: 1.75rem;
+    @size: 1.5rem;
     background: transparent;
     border: 1px solid transparent;
     font-size: @size * 0.75;
@@ -135,6 +141,7 @@ button {
 
 .new-wallet .address {
     padding-left: @newWalletSize / 9;
+    padding-right: (@newWalletSize - @walletPadding * 2);
     left: 0;
     border: 1px solid #999;
     background: #333;

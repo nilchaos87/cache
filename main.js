@@ -9348,6 +9348,27 @@ var _user$project$View$actions = function (address) {
 			}
 		});
 };
+var _user$project$View$error = function (message) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('error'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$button,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _user$project$View$icon('warning'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$View$balance = function (bal) {
 	var content = function () {
 		var _p0 = bal;
@@ -9385,6 +9406,34 @@ var _user$project$View$address = function (content) {
 		});
 };
 var _user$project$View$wallet = function (wallet) {
+	var baseContent = {
+		ctor: '::',
+		_0: _user$project$View$address(wallet.address),
+		_1: {
+			ctor: '::',
+			_0: _user$project$View$balance(wallet.balance),
+			_1: {
+				ctor: '::',
+				_0: _user$project$View$actions(wallet.address),
+				_1: {ctor: '[]'}
+			}
+		}
+	};
+	var content = function () {
+		var _p1 = wallet.error;
+		if (_p1.ctor === 'Just') {
+			return A2(
+				_elm_lang$core$List$append,
+				baseContent,
+				{
+					ctor: '::',
+					_0: _user$project$View$error(_p1._0),
+					_1: {ctor: '[]'}
+				});
+		} else {
+			return baseContent;
+		}
+	}();
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -9392,19 +9441,7 @@ var _user$project$View$wallet = function (wallet) {
 			_0: _elm_lang$html$Html_Attributes$class('wallet'),
 			_1: {ctor: '[]'}
 		},
-		{
-			ctor: '::',
-			_0: _user$project$View$address(wallet.address),
-			_1: {
-				ctor: '::',
-				_0: _user$project$View$balance(wallet.balance),
-				_1: {
-					ctor: '::',
-					_0: _user$project$View$actions(wallet.address),
-					_1: {ctor: '[]'}
-				}
-			}
-		});
+		content);
 };
 var _user$project$View$wallets = function (list) {
 	return A2(
