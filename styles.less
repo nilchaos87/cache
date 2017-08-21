@@ -57,11 +57,11 @@ button {
         border-color: @light;
         color: @light;
 
-        &:hover, &:active {
+        &:hover, &:active, &.expanded {
             background: @light;
         }
 
-        &:hover {
+        &:hover, &.expanded {
             color: @dark;
         }
 
@@ -110,8 +110,27 @@ button {
     background: transparent;
     border: 1px solid transparent;
     font-size: @size * 0.75;
-    width: @size;
-    height: @size;
+    line-height: @size;
+
+    .icon {
+        display: inline-block;
+        width: @size;
+        height: @size;
+    }
+}
+
+.wallet .error button {
+    &.expanded {
+        width: auto;
+
+        .message {
+            padding-right: 0.25rem;
+        }
+    }
+
+    &.collapsed .message {
+        display: none;
+    }
 }
 
 .new-wallet {

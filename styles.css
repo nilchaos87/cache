@@ -90,10 +90,12 @@ button {
   color: #c7ad7f;
 }
 .wallet:nth-child(4n+1) button:hover,
-.wallet:nth-child(4n+1) button:active {
+.wallet:nth-child(4n+1) button:active,
+.wallet:nth-child(4n+1) button.expanded {
   background: #c7ad7f;
 }
-.wallet:nth-child(4n+1) button:hover {
+.wallet:nth-child(4n+1) button:hover,
+.wallet:nth-child(4n+1) button.expanded {
   color: #482e00;
 }
 .wallet:nth-child(4n+1) button:active {
@@ -108,10 +110,12 @@ button {
   color: #8193af;
 }
 .wallet:nth-child(4n+2) button:hover,
-.wallet:nth-child(4n+2) button:active {
+.wallet:nth-child(4n+2) button:active,
+.wallet:nth-child(4n+2) button.expanded {
   background: #8193af;
 }
-.wallet:nth-child(4n+2) button:hover {
+.wallet:nth-child(4n+2) button:hover,
+.wallet:nth-child(4n+2) button.expanded {
   color: #021430;
 }
 .wallet:nth-child(4n+2) button:active {
@@ -126,10 +130,12 @@ button {
   color: #c79c7f;
 }
 .wallet:nth-child(4n+3) button:hover,
-.wallet:nth-child(4n+3) button:active {
+.wallet:nth-child(4n+3) button:active,
+.wallet:nth-child(4n+3) button.expanded {
   background: #c79c7f;
 }
-.wallet:nth-child(4n+3) button:hover {
+.wallet:nth-child(4n+3) button:hover,
+.wallet:nth-child(4n+3) button.expanded {
   color: #481d00;
 }
 .wallet:nth-child(4n+3) button:active {
@@ -144,10 +150,12 @@ button {
   color: #7fada5;
 }
 .wallet:nth-child(4n) button:hover,
-.wallet:nth-child(4n) button:active {
+.wallet:nth-child(4n) button:active,
+.wallet:nth-child(4n) button.expanded {
   background: #7fada5;
 }
-.wallet:nth-child(4n) button:hover {
+.wallet:nth-child(4n) button:hover,
+.wallet:nth-child(4n) button.expanded {
   color: #002e26;
 }
 .wallet:nth-child(4n) button:active {
@@ -170,8 +178,21 @@ button {
   background: transparent;
   border: 1px solid transparent;
   font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+.wallet button .icon {
+  display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
+}
+.wallet .error button.expanded {
+  width: auto;
+}
+.wallet .error button.expanded .message {
+  padding-right: 0.25rem;
+}
+.wallet .error button.collapsed .message {
+  display: none;
 }
 .new-wallet {
   bottom: 0;

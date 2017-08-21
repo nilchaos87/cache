@@ -5,6 +5,7 @@ type alias Wallet =
     { address : String
     , balance : Maybe Float
     , error : Maybe String
+    , expandError : Bool
     }
 
 
@@ -13,4 +14,5 @@ wallet address =
     { address = address
     , balance = Nothing
     , error = Nothing
+    , expandError = False
     }

@@ -1,11 +1,11 @@
 module View exposing (view)
 
-import Html exposing (Html, div, fieldset, input, button, text, i)
+import Html exposing (Html, div, fieldset, input, button, text, i, span)
 import Html.Attributes exposing (class, value, placeholder)
 import Html.Events exposing (onInput, onClick)
 import Model exposing (Model)
 import Data.Wallet exposing (Wallet)
-import Update exposing (Msg(Input, Add, Remove))
+import Update exposing (Msg(Input, Add, Remove, ToggleErrorExpansion))
 
 
 view =
@@ -34,7 +34,7 @@ wallet wallet =
         content =
             case wallet.error of
                 Just message ->
-                    List.append baseContent [ error message ]
+                    List.append baseContent [ error message wallet.expandError wallet.address ]
 
                 Nothing ->
                     baseContent
@@ -61,9 +61,19 @@ balance bal =
         div [ class "balance" ] [ text content ]
 
 
-error : String -> Html msg
-error message =
-    div [ class "error" ] [ button [] [ icon "warning" ] ]
+error : String -> Bool -> String -> Html Msg
+error message expand address =
+    let
+        buttonClass =
+            if expand then
+                "expanded"
+            else
+                "collapsed"
+
+        buttonContent =
+            [ icon "warning", span [ class "message" ] [ text message ] ]
+    in
+        div [ class "error" ] [ button [ class buttonClass, onClick <| ToggleErrorExpansion address ] buttonContent ]
 
 
 actions address =
@@ -90,4 +100,4 @@ addButton =
 
 icon : String -> Html msg
 icon name =
-    i [ class ("fa fa-" ++ name) ] []
+    div [ class "icon" ] [ i [ class ("fa fa-" ++ name) ] [] ]

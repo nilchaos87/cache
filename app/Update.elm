@@ -1,4 +1,4 @@
-port module Update exposing (Msg(Input, Add, UpdateBalance, Remove), save, update, fetchBalance)
+port module Update exposing (Msg(Input, Add, UpdateBalance, Remove, ToggleErrorExpansion), save, update, fetchBalance)
 
 import Data.Balance as Balance
 import Data.Wallet exposing (Wallet, wallet)
@@ -11,6 +11,7 @@ type Msg
     | Add
     | UpdateBalance String (Result Http.Error Float)
     | Remove String
+    | ToggleErrorExpansion String
 
 
 fetchBalance =
@@ -53,6 +54,9 @@ update msg model =
             in
                 ( { model | wallets = wallets }, saveWallets wallets )
 
+        ToggleErrorExpansion address ->
+            ( { model | wallets = List.map (toggleErrorExpansion address) model.wallets }, Cmd.none )
+
 
 updateBalance : String -> Float -> Wallet -> Wallet
 updateBalance address balance wallet =
@@ -66,5 +70,13 @@ updateError : String -> String -> Wallet -> Wallet
 updateError address error wallet =
     if wallet.address == address then
         { wallet | balance = Nothing, error = Just error }
+    else
+        wallet
+
+
+toggleErrorExpansion : String -> Wallet -> Wallet
+toggleErrorExpansion address wallet =
+    if wallet.address == address then
+        { wallet | expandError = not wallet.expandError }
     else
         wallet
