@@ -5,7 +5,7 @@ import Html.Attributes exposing (class, value, placeholder)
 import Html.Events exposing (onInput, onClick)
 import Model exposing (Model)
 import Data.Wallet exposing (Wallet)
-import Update exposing (Msg(Input, Add, Remove, ToggleErrorExpansion))
+import Update exposing (Msg(Input, Add, FetchBalance, Remove, ToggleErrorExpansion))
 
 
 view =
@@ -28,7 +28,7 @@ wallet wallet =
         baseContent =
             [ address wallet.address
             , balance wallet.balance
-            , actions wallet.address
+            , actions wallet
             ]
 
         content =
@@ -71,15 +71,23 @@ error message expand address =
                 "collapsed"
 
         buttonContent =
-            [ icon "warning", span [ class "message" ] [ text message ] ]
+            [ icon Error Nothing, span [ class "message" ] [ text message ] ]
     in
         div [ class "error" ] [ button [ class buttonClass, onClick <| ToggleErrorExpansion address ] buttonContent ]
 
 
-actions address =
+actions : Wallet -> Html Msg
+actions { address, fetchingBalance } =
     div [ class "actions" ]
-        [ button [] [ icon "refresh" ]
-        , button [ onClick <| Remove address ] [ icon "trash" ]
+        [ button [ onClick (FetchBalance address) ]
+            [ icon Refresh
+                (if fetchingBalance then
+                    Just Spin
+                 else
+                    Nothing
+                )
+            ]
+        , button [ onClick <| Remove address ] [ icon Trash Nothing ]
         ]
 
 
@@ -95,9 +103,43 @@ addressInput newAddress =
 
 addButton : Html Msg
 addButton =
-    button [ onClick Add, class "add" ] [ icon "plus" ]
+    button [ onClick Add, class "add" ] [ icon Plus Nothing ]
 
 
-icon : String -> Html msg
-icon name =
-    div [ class "icon" ] [ i [ class ("fa fa-" ++ name) ] [] ]
+type Animation
+    = Spin
+
+
+type Icon
+    = Plus
+    | Refresh
+    | Trash
+    | Error
+
+
+icon : Icon -> Maybe Animation -> Html msg
+icon type_ animation =
+    let
+        img =
+            case type_ of
+                Plus ->
+                    "fa-plus"
+
+                Refresh ->
+                    "fa-refresh"
+
+                Trash ->
+                    "fa-trash"
+
+                Error ->
+                    "fa-warning"
+
+        anim =
+            case animation of
+                Just Spin ->
+                    "fa-spin"
+
+                Nothing ->
+                    ""
+    in
+        div [ class "icon" ] [ i [ class ("fa " ++ img ++ " " ++ anim) ] [] ]

@@ -9089,12 +9089,13 @@ var _user$project$Data_Balance$fetchBalance = F2(
 				_user$project$Data_Balance$decodeBalance));
 	});
 
-var _user$project$Data_Wallet$wallet = function (address) {
-	return {address: address, balance: _elm_lang$core$Maybe$Nothing, error: _elm_lang$core$Maybe$Nothing, expandError: false};
-};
-var _user$project$Data_Wallet$Wallet = F4(
-	function (a, b, c, d) {
-		return {address: a, balance: b, error: c, expandError: d};
+var _user$project$Data_Wallet$wallet = F2(
+	function (address, fetchingBalance) {
+		return {address: address, balance: _elm_lang$core$Maybe$Nothing, error: _elm_lang$core$Maybe$Nothing, expandError: false, fetchingBalance: fetchingBalance};
+	});
+var _user$project$Data_Wallet$Wallet = F5(
+	function (a, b, c, d, e) {
+		return {address: a, balance: b, error: c, expandError: d, fetchingBalance: e};
 	});
 
 var _user$project$Model$Model = F2(
@@ -9114,8 +9115,15 @@ var _user$project$Update$updateError = F3(
 			wallet,
 			{
 				balance: _elm_lang$core$Maybe$Nothing,
-				error: _elm_lang$core$Maybe$Just(error)
+				error: _elm_lang$core$Maybe$Just(error),
+				fetchingBalance: false
 			}) : wallet;
+	});
+var _user$project$Update$updateFetchingBalance = F3(
+	function (address, fetchingBalance, wallet) {
+		return _elm_lang$core$Native_Utils.eq(wallet.address, address) ? _elm_lang$core$Native_Utils.update(
+			wallet,
+			{fetchingBalance: fetchingBalance}) : wallet;
 	});
 var _user$project$Update$updateBalance = F3(
 	function (address, balance, wallet) {
@@ -9123,7 +9131,8 @@ var _user$project$Update$updateBalance = F3(
 			wallet,
 			{
 				balance: _elm_lang$core$Maybe$Just(balance),
-				error: _elm_lang$core$Maybe$Nothing
+				error: _elm_lang$core$Maybe$Nothing,
+				fetchingBalance: false
 			}) : wallet;
 	});
 var _user$project$Update$save = _elm_lang$core$Native_Platform.outgoingPort(
@@ -9149,6 +9158,9 @@ var _user$project$Update$ToggleErrorExpansion = function (a) {
 var _user$project$Update$Remove = function (a) {
 	return {ctor: 'Remove', _0: a};
 };
+var _user$project$Update$FetchBalance = function (a) {
+	return {ctor: 'FetchBalance', _0: a};
+};
 var _user$project$Update$UpdateBalance = F2(
 	function (a, b) {
 		return {ctor: 'UpdateBalance', _0: a, _1: b};
@@ -9172,7 +9184,7 @@ var _user$project$Update$update = F2(
 					model.wallets,
 					{
 						ctor: '::',
-						_0: _user$project$Data_Wallet$wallet(model.newAddress),
+						_0: A2(_user$project$Data_Wallet$wallet, model.newAddress, true),
 						_1: {ctor: '[]'}
 					});
 				return {
@@ -9225,6 +9237,22 @@ var _user$project$Update$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
+			case 'FetchBalance':
+				var _p3 = _p0._0;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							wallets: A2(
+								_elm_lang$core$List$map,
+								function (wallet) {
+									return A3(_user$project$Update$updateFetchingBalance, _p3, true, wallet);
+								},
+								model.wallets)
+						}),
+					_1: _user$project$Update$fetchBalance(_p3)
+				};
 			case 'Remove':
 				var wallets = A2(
 					_elm_lang$core$List$filter,
@@ -9259,43 +9287,55 @@ var _user$project$Update$Input = function (a) {
 	return {ctor: 'Input', _0: a};
 };
 
-var _user$project$View$icon = function (name) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('icon'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$i,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class(
-						A2(_elm_lang$core$Basics_ops['++'], 'fa fa-', name)),
-					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$View$addButton = A2(
-	_elm_lang$html$Html$button,
-	{
-		ctor: '::',
-		_0: _elm_lang$html$Html_Events$onClick(_user$project$Update$Add),
-		_1: {
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('add'),
-			_1: {ctor: '[]'}
-		}
-	},
-	{
-		ctor: '::',
-		_0: _user$project$View$icon('plus'),
-		_1: {ctor: '[]'}
+var _user$project$View$icon = F2(
+	function (type_, animation) {
+		var anim = function () {
+			var _p0 = animation;
+			if (_p0.ctor === 'Just') {
+				return 'fa-spin';
+			} else {
+				return '';
+			}
+		}();
+		var img = function () {
+			var _p1 = type_;
+			switch (_p1.ctor) {
+				case 'Plus':
+					return 'fa-plus';
+				case 'Refresh':
+					return 'fa-refresh';
+				case 'Trash':
+					return 'fa-trash';
+				default:
+					return 'fa-warning';
+			}
+		}();
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('icon'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$i,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'fa ',
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									img,
+									A2(_elm_lang$core$Basics_ops['++'], ' ', anim)))),
+						_1: {ctor: '[]'}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			});
 	});
 var _user$project$View$addressInput = function (newAddress) {
 	return A2(
@@ -9319,73 +9359,49 @@ var _user$project$View$addressInput = function (newAddress) {
 		},
 		{ctor: '[]'});
 };
-var _user$project$View$newWallet = function (newAddress) {
+var _user$project$View$balance = function (bal) {
+	var content = function () {
+		var _p2 = bal;
+		if (_p2.ctor === 'Just') {
+			return _elm_lang$core$Basics$toString(_p2._0);
+		} else {
+			return '--';
+		}
+	}();
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('new-wallet'),
+			_0: _elm_lang$html$Html_Attributes$class('balance'),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$fieldset,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _user$project$View$addressInput(newAddress),
-					_1: {
-						ctor: '::',
-						_0: _user$project$View$addButton,
-						_1: {ctor: '[]'}
-					}
-				}),
+			_0: _elm_lang$html$Html$text(content),
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$View$actions = function (address) {
+var _user$project$View$address = function (content) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('actions'),
+			_0: _elm_lang$html$Html_Attributes$class('address'),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$button,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _user$project$View$icon('refresh'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$button,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(
-							_user$project$Update$Remove(address)),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: _user$project$View$icon('trash'),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			}
+			_0: _elm_lang$html$Html$text(content),
+			_1: {ctor: '[]'}
 		});
 };
+var _user$project$View$Spin = {ctor: 'Spin'};
+var _user$project$View$Error = {ctor: 'Error'};
 var _user$project$View$error = F3(
 	function (message, expand, address) {
 		var buttonContent = {
 			ctor: '::',
-			_0: _user$project$View$icon('warning'),
+			_0: A2(_user$project$View$icon, _user$project$View$Error, _elm_lang$core$Maybe$Nothing),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -9429,40 +9445,53 @@ var _user$project$View$error = F3(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$View$balance = function (bal) {
-	var content = function () {
-		var _p0 = bal;
-		if (_p0.ctor === 'Just') {
-			return _elm_lang$core$Basics$toString(_p0._0);
-		} else {
-			return '--';
-		}
-	}();
+var _user$project$View$Trash = {ctor: 'Trash'};
+var _user$project$View$Refresh = {ctor: 'Refresh'};
+var _user$project$View$actions = function (_p3) {
+	var _p4 = _p3;
+	var _p5 = _p4.address;
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('balance'),
+			_0: _elm_lang$html$Html_Attributes$class('actions'),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(content),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$View$address = function (content) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('address'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(content),
-			_1: {ctor: '[]'}
+			_0: A2(
+				_elm_lang$html$Html$button,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onClick(
+						_user$project$Update$FetchBalance(_p5)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_user$project$View$icon,
+						_user$project$View$Refresh,
+						_p4.fetchingBalance ? _elm_lang$core$Maybe$Just(_user$project$View$Spin) : _elm_lang$core$Maybe$Nothing),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Update$Remove(_p5)),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(_user$project$View$icon, _user$project$View$Trash, _elm_lang$core$Maybe$Nothing),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$View$wallet = function (wallet) {
@@ -9474,20 +9503,20 @@ var _user$project$View$wallet = function (wallet) {
 			_0: _user$project$View$balance(wallet.balance),
 			_1: {
 				ctor: '::',
-				_0: _user$project$View$actions(wallet.address),
+				_0: _user$project$View$actions(wallet),
 				_1: {ctor: '[]'}
 			}
 		}
 	};
 	var content = function () {
-		var _p1 = wallet.error;
-		if (_p1.ctor === 'Just') {
+		var _p6 = wallet.error;
+		if (_p6.ctor === 'Just') {
 			return A2(
 				_elm_lang$core$List$append,
 				baseContent,
 				{
 					ctor: '::',
-					_0: A3(_user$project$View$error, _p1._0, wallet.expandError, wallet.address),
+					_0: A3(_user$project$View$error, _p6._0, wallet.expandError, wallet.address),
 					_1: {ctor: '[]'}
 				});
 		} else {
@@ -9513,6 +9542,48 @@ var _user$project$View$wallets = function (list) {
 		},
 		A2(_elm_lang$core$List$map, _user$project$View$wallet, list));
 };
+var _user$project$View$Plus = {ctor: 'Plus'};
+var _user$project$View$addButton = A2(
+	_elm_lang$html$Html$button,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Events$onClick(_user$project$Update$Add),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('add'),
+			_1: {ctor: '[]'}
+		}
+	},
+	{
+		ctor: '::',
+		_0: A2(_user$project$View$icon, _user$project$View$Plus, _elm_lang$core$Maybe$Nothing),
+		_1: {ctor: '[]'}
+	});
+var _user$project$View$newWallet = function (newAddress) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('new-wallet'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$fieldset,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _user$project$View$addressInput(newAddress),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$addButton,
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$View$shell = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9533,13 +9604,16 @@ var _user$project$View$shell = function (model) {
 };
 var _user$project$View$view = _user$project$View$shell;
 
+var _user$project$Main$wallet = function (address) {
+	return A2(_user$project$Data_Wallet$wallet, address, true);
+};
 var _user$project$Main$init = function (_p0) {
 	var _p1 = _p0;
 	var _p2 = _p1.addresses;
 	return {
 		ctor: '_Tuple2',
 		_0: {
-			wallets: A2(_elm_lang$core$List$map, _user$project$Data_Wallet$wallet, _p2),
+			wallets: A2(_elm_lang$core$List$map, _user$project$Main$wallet, _p2),
 			newAddress: ''
 		},
 		_1: _elm_lang$core$Platform_Cmd$batch(

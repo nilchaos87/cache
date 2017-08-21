@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Html exposing (programWithFlags)
 import Model exposing (Model)
-import Data.Wallet exposing (wallet)
+import Data.Wallet exposing (Wallet)
 import Update exposing (Msg, fetchBalance, update)
 import View exposing (view)
 
@@ -14,6 +14,11 @@ main =
 type alias Flags =
     { addresses : List String
     }
+
+
+wallet : String -> Wallet
+wallet address =
+    Data.Wallet.wallet address True
 
 
 init : Flags -> ( Model, Cmd Msg )

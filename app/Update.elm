@@ -1,4 +1,4 @@
-port module Update exposing (Msg(Input, Add, UpdateBalance, Remove, ToggleErrorExpansion), save, update, fetchBalance)
+port module Update exposing (Msg(Input, Add, UpdateBalance, FetchBalance, Remove, ToggleErrorExpansion), save, update, fetchBalance)
 
 import Data.Balance as Balance
 import Data.Wallet exposing (Wallet, wallet)
@@ -10,6 +10,7 @@ type Msg
     = Input String
     | Add
     | UpdateBalance String (Result Http.Error Float)
+    | FetchBalance String
     | Remove String
     | ToggleErrorExpansion String
 
@@ -35,7 +36,7 @@ update msg model =
         Add ->
             let
                 wallets =
-                    List.append model.wallets [ wallet model.newAddress ]
+                    List.append model.wallets [ wallet model.newAddress True ]
             in
                 ( { model | wallets = wallets, newAddress = "" }, Cmd.batch [ fetchBalance model.newAddress, saveWallets wallets ] )
 
@@ -46,6 +47,9 @@ update msg model =
 
                 Err _ ->
                     ( { model | wallets = List.map (\wallet -> updateError address "Error updating wallet balance" wallet) model.wallets }, Cmd.none )
+
+        FetchBalance address ->
+            ( { model | wallets = List.map (\wallet -> updateFetchingBalance address True wallet) model.wallets }, fetchBalance address )
 
         Remove address ->
             let
@@ -61,7 +65,15 @@ update msg model =
 updateBalance : String -> Float -> Wallet -> Wallet
 updateBalance address balance wallet =
     if wallet.address == address then
-        { wallet | balance = Just balance, error = Nothing }
+        { wallet | balance = Just balance, error = Nothing, fetchingBalance = False }
+    else
+        wallet
+
+
+updateFetchingBalance : String -> Bool -> Wallet -> Wallet
+updateFetchingBalance address fetchingBalance wallet =
+    if wallet.address == address then
+        { wallet | fetchingBalance = fetchingBalance }
     else
         wallet
 
@@ -69,7 +81,7 @@ updateBalance address balance wallet =
 updateError : String -> String -> Wallet -> Wallet
 updateError address error wallet =
     if wallet.address == address then
-        { wallet | balance = Nothing, error = Just error }
+        { wallet | balance = Nothing, error = Just error, fetchingBalance = False }
     else
         wallet
 
