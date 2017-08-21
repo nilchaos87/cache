@@ -90,16 +90,12 @@ button {
   color: #c7ad7f;
 }
 .wallet:nth-child(4n+1) button:hover,
-.wallet:nth-child(4n+1) button:active,
 .wallet:nth-child(4n+1) button.expanded {
   background: #c7ad7f;
 }
 .wallet:nth-child(4n+1) button:hover,
 .wallet:nth-child(4n+1) button.expanded {
   color: #482e00;
-}
-.wallet:nth-child(4n+1) button:active {
-  color: black;
 }
 .wallet:nth-child(4n+2) {
   background: #021430;
@@ -110,16 +106,12 @@ button {
   color: #8193af;
 }
 .wallet:nth-child(4n+2) button:hover,
-.wallet:nth-child(4n+2) button:active,
 .wallet:nth-child(4n+2) button.expanded {
   background: #8193af;
 }
 .wallet:nth-child(4n+2) button:hover,
 .wallet:nth-child(4n+2) button.expanded {
   color: #021430;
-}
-.wallet:nth-child(4n+2) button:active {
-  color: black;
 }
 .wallet:nth-child(4n+3) {
   background: #481d00;
@@ -130,16 +122,12 @@ button {
   color: #c79c7f;
 }
 .wallet:nth-child(4n+3) button:hover,
-.wallet:nth-child(4n+3) button:active,
 .wallet:nth-child(4n+3) button.expanded {
   background: #c79c7f;
 }
 .wallet:nth-child(4n+3) button:hover,
 .wallet:nth-child(4n+3) button.expanded {
   color: #481d00;
-}
-.wallet:nth-child(4n+3) button:active {
-  color: black;
 }
 .wallet:nth-child(4n) {
   background: #002e26;
@@ -150,16 +138,12 @@ button {
   color: #7fada5;
 }
 .wallet:nth-child(4n) button:hover,
-.wallet:nth-child(4n) button:active,
 .wallet:nth-child(4n) button.expanded {
   background: #7fada5;
 }
 .wallet:nth-child(4n) button:hover,
 .wallet:nth-child(4n) button.expanded {
   color: #002e26;
-}
-.wallet:nth-child(4n) button:active {
-  color: black;
 }
 .wallet .balance {
   font-size: 2rem;
@@ -235,14 +219,10 @@ button {
   background-color: #999;
   color: #333;
 }
-.new-wallet .add:hover,
-.new-wallet .add:active {
+.new-wallet .add:hover {
   border: 1px solid #999;
   background: #ccc;
 }
 .new-wallet .add:hover {
   color: #666;
-}
-.new-wallet .add:active {
-  color: #333;
 }
