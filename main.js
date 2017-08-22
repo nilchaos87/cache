@@ -9033,16 +9033,8 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
-var _user$project$Data_Currency$Litecoin = {ctor: 'Litecoin'};
-var _user$project$Data_Currency$Bitcoin = {ctor: 'Bitcoin'};
-var _user$project$Data_Currency$currency = function (address) {
-	return _elm_lang$core$Native_Utils.eq(
-		A2(_elm_lang$core$String$left, 1, address),
-		'L') ? _user$project$Data_Currency$Litecoin : _user$project$Data_Currency$Bitcoin;
-};
-
-var _user$project$Data_Balance$stringAsFloat = function () {
-	var convert = function (val) {
+var _user$project$Data_Balance_ChainSO$floatString = function () {
+	var $float = function (val) {
 		var _p0 = _elm_lang$core$String$toFloat(val);
 		if (_p0.ctor === 'Ok') {
 			return _elm_lang$core$Json_Decode$succeed(_p0._0);
@@ -9050,9 +9042,9 @@ var _user$project$Data_Balance$stringAsFloat = function () {
 			return _elm_lang$core$Json_Decode$fail(_p0._0);
 		}
 	};
-	return A2(_elm_lang$core$Json_Decode$andThen, convert, _elm_lang$core$Json_Decode$string);
+	return A2(_elm_lang$core$Json_Decode$andThen, $float, _elm_lang$core$Json_Decode$string);
 }();
-var _user$project$Data_Balance$decodeBalance = A2(
+var _user$project$Data_Balance_ChainSO$decoder = A2(
 	_elm_lang$core$Json_Decode$at,
 	{
 		ctor: '::',
@@ -9063,30 +9055,65 @@ var _user$project$Data_Balance$decodeBalance = A2(
 			_1: {ctor: '[]'}
 		}
 	},
-	_user$project$Data_Balance$stringAsFloat);
-var _user$project$Data_Balance$walletPath = function (address) {
-	var _p1 = _user$project$Data_Currency$currency(address);
-	if (_p1.ctor === 'Bitcoin') {
-		return A2(_elm_lang$core$Basics_ops['++'], 'BTC/', address);
-	} else {
-		return A2(_elm_lang$core$Basics_ops['++'], 'LTC/', address);
-	}
+	_user$project$Data_Balance_ChainSO$floatString);
+var _user$project$Data_Balance_ChainSO$fetch = F3(
+	function (url, msg, address) {
+		return A2(
+			_elm_lang$http$Http$send,
+			msg(address),
+			A2(
+				_elm_lang$http$Http$get,
+				url(address),
+				_user$project$Data_Balance_ChainSO$decoder));
+	});
+
+var _user$project$Data_Balance_Bitcoin$url = function (address) {
+	return A2(_elm_lang$core$Basics_ops['++'], 'https://chain.so/api/v2/get_address_balance/BTC/', address);
 };
-var _user$project$Data_Balance$url = function (address) {
+var _user$project$Data_Balance_Bitcoin$fetch = _user$project$Data_Balance_ChainSO$fetch(_user$project$Data_Balance_Bitcoin$url);
+
+var _user$project$Data_Balance_Litecoin$url = function (address) {
+	return A2(_elm_lang$core$Basics_ops['++'], 'https://chain.so/api/v2/get_address_balance/LTC/', address);
+};
+var _user$project$Data_Balance_Litecoin$fetch = _user$project$Data_Balance_ChainSO$fetch(_user$project$Data_Balance_Litecoin$url);
+
+var _user$project$Data_Balance_Decred$decoder = A2(_elm_lang$core$Json_Decode$field, 'balance', _elm_lang$core$Json_Decode$float);
+var _user$project$Data_Balance_Decred$url = function (address) {
 	return A2(
 		_elm_lang$core$Basics_ops['++'],
-		'https://chain.so/api/v2/get_address_balance/',
-		_user$project$Data_Balance$walletPath(address));
+		'https://mainnet.decred.org/api/addr/',
+		A2(_elm_lang$core$Basics_ops['++'], address, '/?noTxList=1'));
 };
-var _user$project$Data_Balance$fetchBalance = F2(
+var _user$project$Data_Balance_Decred$fetch = F2(
 	function (msg, address) {
 		return A2(
 			_elm_lang$http$Http$send,
 			msg(address),
 			A2(
 				_elm_lang$http$Http$get,
-				_user$project$Data_Balance$url(address),
-				_user$project$Data_Balance$decodeBalance));
+				_user$project$Data_Balance_Decred$url(address),
+				_user$project$Data_Balance_Decred$decoder));
+	});
+
+var _user$project$Data_Currency$Decred = {ctor: 'Decred'};
+var _user$project$Data_Currency$Litecoin = {ctor: 'Litecoin'};
+var _user$project$Data_Currency$Bitcoin = {ctor: 'Bitcoin'};
+var _user$project$Data_Currency$currency = function (address) {
+	var prefix = A2(_elm_lang$core$String$left, 1, address);
+	return _elm_lang$core$Native_Utils.eq(prefix, 'L') ? _user$project$Data_Currency$Litecoin : (_elm_lang$core$Native_Utils.eq(prefix, 'D') ? _user$project$Data_Currency$Decred : _user$project$Data_Currency$Bitcoin);
+};
+
+var _user$project$Data_Balance$fetch = F2(
+	function (msg, address) {
+		var _p0 = _user$project$Data_Currency$currency(address);
+		switch (_p0.ctor) {
+			case 'Bitcoin':
+				return A2(_user$project$Data_Balance_Bitcoin$fetch, msg, address);
+			case 'Litecoin':
+				return A2(_user$project$Data_Balance_Litecoin$fetch, msg, address);
+			default:
+				return A2(_user$project$Data_Balance_Decred$fetch, msg, address);
+		}
 	});
 
 var _user$project$Data_Wallet$wallet = F2(
@@ -9165,7 +9192,7 @@ var _user$project$Update$UpdateBalance = F2(
 	function (a, b) {
 		return {ctor: 'UpdateBalance', _0: a, _1: b};
 	});
-var _user$project$Update$fetchBalance = _user$project$Data_Balance$fetchBalance(_user$project$Update$UpdateBalance);
+var _user$project$Update$fetchBalance = _user$project$Data_Balance$fetch(_user$project$Update$UpdateBalance);
 var _user$project$Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;

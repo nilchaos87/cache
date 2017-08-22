@@ -16,7 +16,7 @@ type Msg
 
 
 fetchBalance =
-    Balance.fetchBalance UpdateBalance
+    Balance.fetch UpdateBalance
 
 
 port save : List String -> Cmd msg
