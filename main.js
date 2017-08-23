@@ -9095,12 +9095,39 @@ var _user$project$Data_Balance_Decred$fetch = F2(
 				_user$project$Data_Balance_Decred$decoder));
 	});
 
+var _user$project$Data_Balance_EthereumClassic$decoder = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'balance',
+		_1: {
+			ctor: '::',
+			_0: 'ether',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$float);
+var _user$project$Data_Balance_EthereumClassic$url = function (address) {
+	return A2(_elm_lang$core$Basics_ops['++'], 'https://api.gastracker.io/addr/', address);
+};
+var _user$project$Data_Balance_EthereumClassic$fetch = F2(
+	function (msg, address) {
+		return A2(
+			_elm_lang$http$Http$send,
+			msg(address),
+			A2(
+				_elm_lang$http$Http$get,
+				_user$project$Data_Balance_EthereumClassic$url(address),
+				_user$project$Data_Balance_EthereumClassic$decoder));
+	});
+
+var _user$project$Data_Currency$EthereumClassic = {ctor: 'EthereumClassic'};
 var _user$project$Data_Currency$Decred = {ctor: 'Decred'};
 var _user$project$Data_Currency$Litecoin = {ctor: 'Litecoin'};
 var _user$project$Data_Currency$Bitcoin = {ctor: 'Bitcoin'};
 var _user$project$Data_Currency$currency = function (address) {
 	var prefix = A2(_elm_lang$core$String$left, 1, address);
-	return _elm_lang$core$Native_Utils.eq(prefix, 'L') ? _user$project$Data_Currency$Litecoin : (_elm_lang$core$Native_Utils.eq(prefix, 'D') ? _user$project$Data_Currency$Decred : _user$project$Data_Currency$Bitcoin);
+	return _elm_lang$core$Native_Utils.eq(prefix, 'L') ? _user$project$Data_Currency$Litecoin : (_elm_lang$core$Native_Utils.eq(prefix, 'D') ? _user$project$Data_Currency$Decred : (_elm_lang$core$Native_Utils.eq(prefix, '0') ? _user$project$Data_Currency$EthereumClassic : _user$project$Data_Currency$Bitcoin));
 };
 
 var _user$project$Data_Balance$fetch = F2(
@@ -9111,8 +9138,10 @@ var _user$project$Data_Balance$fetch = F2(
 				return A2(_user$project$Data_Balance_Bitcoin$fetch, msg, address);
 			case 'Litecoin':
 				return A2(_user$project$Data_Balance_Litecoin$fetch, msg, address);
-			default:
+			case 'Decred':
 				return A2(_user$project$Data_Balance_Decred$fetch, msg, address);
+			default:
+				return A2(_user$project$Data_Balance_EthereumClassic$fetch, msg, address);
 		}
 	});
 

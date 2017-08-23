@@ -153,6 +153,11 @@ button {
     color: #002e26;
   }
 }
+.wallet .address {
+  max-width: 20rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .wallet .balance {
   font-size: 2rem;
 }
