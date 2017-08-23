@@ -42,10 +42,10 @@
 
 button, input {
     outline: none;
+    border-radius: 0;
 }
 
 button {
-    border-radius: 0;
     cursor: pointer;
 }
 
@@ -57,12 +57,16 @@ button {
         border-color: @light;
         color: @light;
 
-        &:hover, &.expanded {
+        &.expanded {
             background: @light;
+            color: @dark;
         }
 
-        &:hover, &.expanded {
-            color: @dark;
+        @media(hover:hover) {
+            &:hover {
+                background: @light;
+                color: @dark;
+            }
         }
     }
 }
@@ -177,12 +181,11 @@ button {
     background-color: #999;
     color: #333;
 
-    &:hover {
-        border: 1px solid #999;
-        background: #ccc;
-    }
-
-    &:hover {
-        color: #666;
+    @media(hover:hover) {
+        &:hover {
+            border: 1px solid #999;
+            background: #ccc;
+            color: #666;
+        }    
     }
 }

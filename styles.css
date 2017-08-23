@@ -76,9 +76,9 @@
 button,
 input {
   outline: none;
+  border-radius: 0;
 }
 button {
-  border-radius: 0;
   cursor: pointer;
 }
 .wallet:nth-child(4n+1) {
@@ -89,13 +89,15 @@ button {
   border-color: #c7ad7f;
   color: #c7ad7f;
 }
-.wallet:nth-child(4n+1) button:hover,
 .wallet:nth-child(4n+1) button.expanded {
   background: #c7ad7f;
-}
-.wallet:nth-child(4n+1) button:hover,
-.wallet:nth-child(4n+1) button.expanded {
   color: #482e00;
+}
+@media (hover: hover) {
+  .wallet:nth-child(4n+1) button:hover {
+    background: #c7ad7f;
+    color: #482e00;
+  }
 }
 .wallet:nth-child(4n+2) {
   background: #021430;
@@ -105,13 +107,15 @@ button {
   border-color: #8193af;
   color: #8193af;
 }
-.wallet:nth-child(4n+2) button:hover,
 .wallet:nth-child(4n+2) button.expanded {
   background: #8193af;
-}
-.wallet:nth-child(4n+2) button:hover,
-.wallet:nth-child(4n+2) button.expanded {
   color: #021430;
+}
+@media (hover: hover) {
+  .wallet:nth-child(4n+2) button:hover {
+    background: #8193af;
+    color: #021430;
+  }
 }
 .wallet:nth-child(4n+3) {
   background: #481d00;
@@ -121,13 +125,15 @@ button {
   border-color: #c79c7f;
   color: #c79c7f;
 }
-.wallet:nth-child(4n+3) button:hover,
 .wallet:nth-child(4n+3) button.expanded {
   background: #c79c7f;
-}
-.wallet:nth-child(4n+3) button:hover,
-.wallet:nth-child(4n+3) button.expanded {
   color: #481d00;
+}
+@media (hover: hover) {
+  .wallet:nth-child(4n+3) button:hover {
+    background: #c79c7f;
+    color: #481d00;
+  }
 }
 .wallet:nth-child(4n) {
   background: #002e26;
@@ -137,13 +143,15 @@ button {
   border-color: #7fada5;
   color: #7fada5;
 }
-.wallet:nth-child(4n) button:hover,
 .wallet:nth-child(4n) button.expanded {
   background: #7fada5;
-}
-.wallet:nth-child(4n) button:hover,
-.wallet:nth-child(4n) button.expanded {
   color: #002e26;
+}
+@media (hover: hover) {
+  .wallet:nth-child(4n) button:hover {
+    background: #7fada5;
+    color: #002e26;
+  }
 }
 .wallet .balance {
   font-size: 2rem;
@@ -219,10 +227,10 @@ button {
   background-color: #999;
   color: #333;
 }
-.new-wallet .add:hover {
-  border: 1px solid #999;
-  background: #ccc;
-}
-.new-wallet .add:hover {
-  color: #666;
+@media (hover: hover) {
+  .new-wallet .add:hover {
+    border: 1px solid #999;
+    background: #ccc;
+    color: #666;
+  }
 }
