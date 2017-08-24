@@ -1,4 +1,4 @@
-module Data.Wallet exposing (Wallet, wallet)
+module Data.Wallet exposing (..)
 
 
 type alias Wallet =
