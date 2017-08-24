@@ -16,7 +16,12 @@
             });
 
             app.ports.save.subscribe(function(addresses) {
-                localStorage.setItem('addresses', JSON.stringify(addresses));
+                try {
+                    localStorage.setItem('addresses', JSON.stringify(addresses));
+                }
+                catch (e) {
+                    console.error(e);
+                }
             });
         </script>
     </body>
