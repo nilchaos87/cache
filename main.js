@@ -9146,8 +9146,12 @@ var _user$project$Data_Balance$fetch = F2(
 	});
 
 var _user$project$Data_Wallet$wallet = F2(
-	function (address, fetchingBalance) {
-		return {address: address, balance: _elm_lang$core$Maybe$Nothing, error: _elm_lang$core$Maybe$Nothing, expandError: false, fetchingBalance: fetchingBalance};
+	function (msg, address) {
+		return {
+			ctor: '_Tuple2',
+			_0: {address: address, balance: _elm_lang$core$Maybe$Nothing, error: _elm_lang$core$Maybe$Nothing, expandError: false, fetchingBalance: true},
+			_1: A2(_user$project$Data_Balance$fetch, msg, address)
+		};
 	});
 var _user$project$Data_Wallet$Wallet = F5(
 	function (a, b, c, d, e) {
@@ -9235,12 +9239,13 @@ var _user$project$Update$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Add':
+				var newWallet = A2(_user$project$Data_Wallet$wallet, _user$project$Update$UpdateBalance, model.newAddress);
 				var wallets = A2(
 					_elm_lang$core$List$append,
 					model.wallets,
 					{
 						ctor: '::',
-						_0: A2(_user$project$Data_Wallet$wallet, model.newAddress, true),
+						_0: _elm_lang$core$Tuple$first(newWallet),
 						_1: {ctor: '[]'}
 					});
 				return {
@@ -9251,7 +9256,7 @@ var _user$project$Update$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$batch(
 						{
 							ctor: '::',
-							_0: _user$project$Update$fetchBalance(model.newAddress),
+							_0: _elm_lang$core$Tuple$second(newWallet),
 							_1: {
 								ctor: '::',
 								_0: _user$project$Update$saveWallets(wallets),
@@ -9660,20 +9665,20 @@ var _user$project$View$shell = function (model) {
 };
 var _user$project$View$view = _user$project$View$shell;
 
-var _user$project$Main$wallet = function (address) {
-	return A2(_user$project$Data_Wallet$wallet, address, true);
-};
 var _user$project$Main$init = function (_p0) {
 	var _p1 = _p0;
-	var _p2 = _p1.addresses;
+	var items = A2(
+		_elm_lang$core$List$map,
+		_user$project$Data_Wallet$wallet(_user$project$Update$UpdateBalance),
+		_p1.addresses);
 	return {
 		ctor: '_Tuple2',
 		_0: {
-			wallets: A2(_elm_lang$core$List$map, _user$project$Main$wallet, _p2),
+			wallets: A2(_elm_lang$core$List$map, _elm_lang$core$Tuple$first, items),
 			newAddress: ''
 		},
 		_1: _elm_lang$core$Platform_Cmd$batch(
-			A2(_elm_lang$core$List$map, _user$project$Update$fetchBalance, _p2))
+			A2(_elm_lang$core$List$map, _elm_lang$core$Tuple$second, items))
 	};
 };
 var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
@@ -9681,7 +9686,7 @@ var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
 		init: _user$project$Main$init,
 		update: _user$project$Update$update,
 		view: _user$project$View$view,
-		subscriptions: function (_p3) {
+		subscriptions: function (_p2) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})(

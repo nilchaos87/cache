@@ -2,8 +2,8 @@ module Main exposing (main)
 
 import Html exposing (programWithFlags)
 import Model exposing (Model)
-import Data.Wallet exposing (Wallet)
-import Update exposing (Msg, fetchBalance, update)
+import Data.Wallet exposing (wallet)
+import Update exposing (Msg(UpdateBalance), fetchBalance, update)
 import View exposing (view)
 
 
@@ -16,11 +16,10 @@ type alias Flags =
     }
 
 
-wallet : String -> Wallet
-wallet address =
-    Data.Wallet.wallet address True
-
-
 init : Flags -> ( Model, Cmd Msg )
 init { addresses } =
-    ( { wallets = List.map wallet addresses, newAddress = "" }, Cmd.batch <| List.map fetchBalance addresses )
+    let
+        items =
+            List.map (wallet UpdateBalance) addresses
+    in
+        ( { wallets = List.map Tuple.first items, newAddress = "" }, Cmd.batch <| List.map Tuple.second items )

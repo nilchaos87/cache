@@ -1,5 +1,8 @@
 module Data.Wallet exposing (..)
 
+import Http exposing (Error)
+import Data.Balance as Balance
+
 
 type alias Wallet =
     { address : String
@@ -10,11 +13,13 @@ type alias Wallet =
     }
 
 
-wallet : String -> Bool -> Wallet
-wallet address fetchingBalance =
-    { address = address
-    , balance = Nothing
-    , error = Nothing
-    , expandError = False
-    , fetchingBalance = fetchingBalance
-    }
+wallet : (String -> Result Error Float -> msg) -> String -> ( Wallet, Cmd msg )
+wallet msg address =
+    ( { address = address
+      , balance = Nothing
+      , error = Nothing
+      , expandError = False
+      , fetchingBalance = True
+      }
+    , Balance.fetch msg address
+    )

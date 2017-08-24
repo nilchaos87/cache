@@ -35,10 +35,13 @@ update msg model =
 
         Add ->
             let
+                newWallet =
+                    model.newAddress |> wallet UpdateBalance
+
                 wallets =
-                    List.append model.wallets [ wallet model.newAddress True ]
+                    List.append model.wallets [ Tuple.first newWallet ]
             in
-                ( { model | wallets = wallets, newAddress = "" }, Cmd.batch [ fetchBalance model.newAddress, saveWallets wallets ] )
+                ( { model | wallets = wallets, newAddress = "" }, Cmd.batch [ Tuple.second newWallet, saveWallets wallets ] )
 
         UpdateBalance address result ->
             case result of
