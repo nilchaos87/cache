@@ -9163,37 +9163,47 @@ var _user$project$Model$Model = F2(
 		return {wallets: a, newAddress: b};
 	});
 
-var _user$project$Update$toggleErrorExpansion = F2(
-	function (address, wallet) {
-		return _elm_lang$core$Native_Utils.eq(wallet.address, address) ? _elm_lang$core$Native_Utils.update(
-			wallet,
-			{expandError: !wallet.expandError}) : wallet;
+var _user$project$Update$updateWallet = F3(
+	function (update, address, wallet) {
+		return _elm_lang$core$Native_Utils.eq(wallet.address, address) ? update(wallet) : wallet;
 	});
-var _user$project$Update$updateError = F3(
-	function (address, error, wallet) {
-		return _elm_lang$core$Native_Utils.eq(wallet.address, address) ? _elm_lang$core$Native_Utils.update(
+var _user$project$Update$updateBalance = function (balance) {
+	return _user$project$Update$updateWallet(
+		function (wallet) {
+			return _elm_lang$core$Native_Utils.update(
+				wallet,
+				{
+					balance: _elm_lang$core$Maybe$Just(balance),
+					error: _elm_lang$core$Maybe$Nothing,
+					fetchingBalance: false
+				});
+		});
+};
+var _user$project$Update$updateFetchingBalance = function (fetchingBalance) {
+	return _user$project$Update$updateWallet(
+		function (wallet) {
+			return _elm_lang$core$Native_Utils.update(
+				wallet,
+				{fetchingBalance: fetchingBalance});
+		});
+};
+var _user$project$Update$updateError = function (error) {
+	return _user$project$Update$updateWallet(
+		function (wallet) {
+			return _elm_lang$core$Native_Utils.update(
+				wallet,
+				{
+					balance: _elm_lang$core$Maybe$Nothing,
+					error: _elm_lang$core$Maybe$Just(error),
+					fetchingBalance: false
+				});
+		});
+};
+var _user$project$Update$toggleErrorExpansion = _user$project$Update$updateWallet(
+	function (wallet) {
+		return _elm_lang$core$Native_Utils.update(
 			wallet,
-			{
-				balance: _elm_lang$core$Maybe$Nothing,
-				error: _elm_lang$core$Maybe$Just(error),
-				fetchingBalance: false
-			}) : wallet;
-	});
-var _user$project$Update$updateFetchingBalance = F3(
-	function (address, fetchingBalance, wallet) {
-		return _elm_lang$core$Native_Utils.eq(wallet.address, address) ? _elm_lang$core$Native_Utils.update(
-			wallet,
-			{fetchingBalance: fetchingBalance}) : wallet;
-	});
-var _user$project$Update$updateBalance = F3(
-	function (address, balance, wallet) {
-		return _elm_lang$core$Native_Utils.eq(wallet.address, address) ? _elm_lang$core$Native_Utils.update(
-			wallet,
-			{
-				balance: _elm_lang$core$Maybe$Just(balance),
-				error: _elm_lang$core$Maybe$Nothing,
-				fetchingBalance: false
-			}) : wallet;
+			{expandError: !wallet.expandError});
 	});
 var _user$project$Update$save = _elm_lang$core$Native_Platform.outgoingPort(
 	'save',
@@ -9275,9 +9285,7 @@ var _user$project$Update$update = F2(
 							{
 								wallets: A2(
 									_elm_lang$core$List$map,
-									function (wallet) {
-										return A3(_user$project$Update$updateBalance, _p2, _p1._0, wallet);
-									},
+									A2(_user$project$Update$updateBalance, _p1._0, _p2),
 									model.wallets)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
@@ -9290,9 +9298,7 @@ var _user$project$Update$update = F2(
 							{
 								wallets: A2(
 									_elm_lang$core$List$map,
-									function (wallet) {
-										return A3(_user$project$Update$updateError, _p2, 'Error updating wallet balance', wallet);
-									},
+									A2(_user$project$Update$updateError, 'Error updating wallet balance', _p2),
 									model.wallets)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
@@ -9307,9 +9313,7 @@ var _user$project$Update$update = F2(
 						{
 							wallets: A2(
 								_elm_lang$core$List$map,
-								function (wallet) {
-									return A3(_user$project$Update$updateFetchingBalance, _p3, true, wallet);
-								},
+								A2(_user$project$Update$updateFetchingBalance, true, _p3),
 								model.wallets)
 						}),
 					_1: _user$project$Update$fetchBalance(_p3)

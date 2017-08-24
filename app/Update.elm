@@ -46,13 +46,13 @@ update msg model =
         UpdateBalance address result ->
             case result of
                 Ok balance ->
-                    ( { model | wallets = List.map (\wallet -> updateBalance address balance wallet) model.wallets }, Cmd.none )
+                    ( { model | wallets = List.map (updateBalance balance address) model.wallets }, Cmd.none )
 
                 Err _ ->
-                    ( { model | wallets = List.map (\wallet -> updateError address "Error updating wallet balance" wallet) model.wallets }, Cmd.none )
+                    ( { model | wallets = List.map (updateError "Error updating wallet balance" address) model.wallets }, Cmd.none )
 
         FetchBalance address ->
-            ( { model | wallets = List.map (\wallet -> updateFetchingBalance address True wallet) model.wallets }, fetchBalance address )
+            ( { model | wallets = List.map (updateFetchingBalance True address) model.wallets }, fetchBalance address )
 
         Remove address ->
             let
@@ -65,33 +65,29 @@ update msg model =
             ( { model | wallets = List.map (toggleErrorExpansion address) model.wallets }, Cmd.none )
 
 
-updateBalance : String -> Float -> Wallet -> Wallet
-updateBalance address balance wallet =
+updateWallet : (Wallet -> Wallet) -> String -> Wallet -> Wallet
+updateWallet update address wallet =
     if wallet.address == address then
-        { wallet | balance = Just balance, error = Nothing, fetchingBalance = False }
+        update wallet
     else
         wallet
 
 
-updateFetchingBalance : String -> Bool -> Wallet -> Wallet
-updateFetchingBalance address fetchingBalance wallet =
-    if wallet.address == address then
-        { wallet | fetchingBalance = fetchingBalance }
-    else
-        wallet
+updateBalance : Float -> String -> Wallet -> Wallet
+updateBalance balance =
+    updateWallet (\wallet -> { wallet | balance = Just balance, error = Nothing, fetchingBalance = False })
+
+
+updateFetchingBalance : Bool -> String -> Wallet -> Wallet
+updateFetchingBalance fetchingBalance =
+    updateWallet (\wallet -> { wallet | fetchingBalance = fetchingBalance })
 
 
 updateError : String -> String -> Wallet -> Wallet
-updateError address error wallet =
-    if wallet.address == address then
-        { wallet | balance = Nothing, error = Just error, fetchingBalance = False }
-    else
-        wallet
+updateError error =
+    updateWallet (\wallet -> { wallet | balance = Nothing, error = Just error, fetchingBalance = False })
 
 
 toggleErrorExpansion : String -> Wallet -> Wallet
-toggleErrorExpansion address wallet =
-    if wallet.address == address then
-        { wallet | expandError = not wallet.expandError }
-    else
-        wallet
+toggleErrorExpansion =
+    updateWallet (\wallet -> { wallet | expandError = not wallet.expandError })
