@@ -1,4 +1,4 @@
-module Data.Currency exposing (Currency(Bitcoin, Litecoin, Decred, EthereumClassic), currency)
+module Data.Currency exposing (..)
 
 
 type Currency
