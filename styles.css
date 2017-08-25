@@ -222,7 +222,7 @@ button {
   }
 }
 .new-wallet .address {
-  padding-left: 0.44444444rem;
+  padding-left: 0.4rem;
   padding-right: 2rem;
   left: 0;
   border: 1px solid #999;
@@ -238,5 +238,5 @@ button {
   position: absolute;
   top: 0;
   bottom: 0;
-  font-size: 1.33333333rem;
+  font-size: 1rem;
 }
