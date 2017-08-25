@@ -3,6 +3,7 @@ module View exposing (view)
 import Html exposing (Html, div, fieldset, input, button, text, i, span)
 import Html.Attributes exposing (class, value, placeholder)
 import Html.Events exposing (onInput, onClick)
+import Cache.Icon as Icon
 import Model exposing (Model)
 import Data.Wallet exposing (Wallet)
 import Update exposing (Msg(Input, Add, FetchBalance, Remove, ToggleErrorExpansion))
@@ -71,7 +72,7 @@ error message expand address =
                 "collapsed"
 
         buttonContent =
-            [ icon Error Nothing, span [ class "message" ] [ text message ] ]
+            [ Icon.error, span [ class "message" ] [ text message ] ]
     in
         div [ class "error" ] [ button [ class buttonClass, onClick <| ToggleErrorExpansion address ] buttonContent ]
 
@@ -79,15 +80,8 @@ error message expand address =
 actions : Wallet -> Html Msg
 actions { address, fetchingBalance } =
     div [ class "actions" ]
-        [ button [ onClick (FetchBalance address) ]
-            [ icon Refresh
-                (if fetchingBalance then
-                    Just Spin
-                 else
-                    Nothing
-                )
-            ]
-        , button [ onClick <| Remove address ] [ icon Trash Nothing ]
+        [ button [ onClick (FetchBalance address) ] [ Icon.refresh fetchingBalance ]
+        , button [ onClick <| Remove address ] [ Icon.remove ]
         ]
 
 
@@ -103,43 +97,4 @@ addressInput newAddress =
 
 addButton : Html Msg
 addButton =
-    button [ onClick Add, class "add" ] [ icon Plus Nothing ]
-
-
-type Animation
-    = Spin
-
-
-type Icon
-    = Plus
-    | Refresh
-    | Trash
-    | Error
-
-
-icon : Icon -> Maybe Animation -> Html msg
-icon type_ animation =
-    let
-        img =
-            case type_ of
-                Plus ->
-                    "fa-plus"
-
-                Refresh ->
-                    "fa-refresh"
-
-                Trash ->
-                    "fa-trash"
-
-                Error ->
-                    "fa-warning"
-
-        anim =
-            case animation of
-                Just Spin ->
-                    "fa-spin"
-
-                Nothing ->
-                    ""
-    in
-        div [ class "icon" ] [ i [ class ("fa " ++ img ++ " " ++ anim) ] [] ]
+    button [ onClick Add, class "add" ] [ Icon.add ]
