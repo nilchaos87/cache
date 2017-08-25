@@ -1,0 +1,44 @@
+{
+  "name": "cache",
+  "version": "1.0.0",
+  "description": "A cryptocurrency wallet viewer",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+      "start": "webpack-dev-server",
+      "build": "webpack"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "css-loader": "^0.28.5",
+    "elm-webpack-loader": "^4.3.1",
+    "html-webpack-plugin": "^2.30.1",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nilchaos87/cache.git"
+  },
+  "keywords": [
+    "cryptocurrency",
+    "wallet",
+    "viewer",
+    "bitcoin",
+    "litecoin",
+    "decred",
+    "ethereum",
+    "classic"
+  ],
+  "author": "nilchaos87 <justthebit@inorbit.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nilchaos87/cache/issues"
+  },
+  "homepage": "https://nilchaos87.github.io/cache/index.html"
+}
