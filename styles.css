@@ -6,6 +6,14 @@
   padding: 0;
   margin: 0;
 }
+button,
+input {
+  outline: none;
+  border-radius: 0;
+}
+button {
+  cursor: pointer;
+}
 .shell,
 .wallets,
 .new-wallet {
@@ -24,7 +32,7 @@
 }
 .wallets {
   top: 0;
-  bottom: 5rem;
+  bottom: 4rem;
 }
 .wallet:first-child:nth-last-child(1),
 .wallet:first-child:nth-last-child(1) ~ .wallet {
@@ -73,14 +81,6 @@
 .wallet:first-child:nth-last-child(12),
 .wallet:first-child:nth-last-child(12) ~ .wallet {
   height: 8.33333333%;
-}
-button,
-input {
-  outline: none;
-  border-radius: 0;
-}
-button {
-  cursor: pointer;
 }
 .wallet:nth-child(4n+1) {
   background: #482e00;
@@ -154,24 +154,6 @@ button {
     color: #002e26;
   }
 }
-.wallet .address {
-  max-width: 20rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.wallet .balance {
-  font-size: 2rem;
-}
-.wallet .actions,
-.wallet .error {
-  display: inline-block;
-}
-.wallet .actions {
-  margin-top: 0.25rem;
-}
-.wallet .actions button {
-  margin-right: 0.25rem;
-}
 .wallet button {
   background: transparent;
   border: 1px solid transparent;
@@ -182,6 +164,24 @@ button {
   display: inline-block;
   width: 1.5rem;
   height: 1.5rem;
+}
+.wallet .address {
+  max-width: 20rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wallet .balance {
+  font-size: 2rem;
+}
+.wallet .actions {
+  margin-top: 0.25rem;
+}
+.wallet .actions button {
+  margin-right: 0.25rem;
+}
+.wallet .actions,
+.wallet .error {
+  display: inline-block;
 }
 .wallet .error button.expanded {
   width: auto;
@@ -194,7 +194,7 @@ button {
 }
 .new-wallet {
   bottom: 0;
-  height: 5rem;
+  height: 4rem;
   text-align: center;
   background: black;
 }
@@ -204,31 +204,12 @@ button {
   max-width: 480px;
   border: 0;
   position: relative;
-  height: 3rem;
-}
-.new-wallet fieldset .address,
-.new-wallet fieldset .add {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  font-size: 1.66666667rem;
-}
-.new-wallet .address {
-  padding-left: 0.55555556rem;
-  padding-right: 3rem;
-  left: 0;
-  border: 1px solid #999;
-  background: #333;
-  color: #fff;
-  width: 100%;
-}
-.new-wallet .address:placeholder {
-  color: #999;
+  height: 2rem;
 }
 .new-wallet .add {
   right: 0;
-  width: 3rem;
-  height: 3rem;
+  width: 2rem;
+  height: 2rem;
   border: 0;
   background-color: #999;
   color: #333;
@@ -239,4 +220,23 @@ button {
     background: #ccc;
     color: #666;
   }
+}
+.new-wallet .address {
+  padding-left: 0.44444444rem;
+  padding-right: 2rem;
+  left: 0;
+  border: 1px solid #999;
+  background: #333;
+  color: #fff;
+  width: 100%;
+}
+.new-wallet .address:placeholder {
+  color: #999;
+}
+.new-wallet .address,
+.new-wallet .add {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  font-size: 1.33333333rem;
 }
