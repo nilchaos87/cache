@@ -1,7 +1,7 @@
-.stretchItems(@selector, @property, @counter) when (@counter > 0) {
-  .stretchItems(@selector, @property, (@counter - 1));
+.stretchItems(@selector, @property, @counter, @noScrollMax) when (@counter > 0) {
+  .stretchItems(@selector, @property, (@counter - 1), @noScrollMax);
   @{selector}:first-child:nth-last-child(@{counter}), @{selector}:first-child:nth-last-child(@{counter}) ~ @{selector} {
-    height: 100% / @counter;
+    @{property}: 100% / min(@counter, @noScrollMax);
   }
 }
 
@@ -43,9 +43,20 @@ button {
 .wallets {
     top: 0;
     bottom: @newWalletSize;
+    overflow-y: scroll;
 }
 
-.stretchItems(~'.wallet', 'height', 12);
+@media (max-height: 24.999999rem) {
+    .stretchItems(~'.wallet', ~'height', 12, 2);
+}
+
+@media (min-height: 25rem) and (max-height: 32.999999rem) {
+    .stretchItems(~'.wallet', ~'height', 12, 3);
+}
+
+@media (min-height: 33rem) {
+    .stretchItems(~'.wallet', ~'height', 12, 4);
+}
 
 .applyWalletPalette(@selector, @dark, @light) {
     .wallet:nth-child(@{selector}) {
