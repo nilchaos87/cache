@@ -2,9 +2,6 @@
 
 set -e
 
-rm -rf dist || exit 0;
-mkdir dist;
-
 cd dist
 git init
 
