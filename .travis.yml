@@ -1,0 +1,13 @@
+node_js:
+  - "8.2.1"
+
+install:
+  - npm install
+
+script:
+  - npm run build
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
