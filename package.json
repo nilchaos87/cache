@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
       "start": "webpack-dev-server",
-      "build": "webpack"
+      "build": "webpack -p"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
