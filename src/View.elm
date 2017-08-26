@@ -7,6 +7,7 @@ import Cache.Icon as Icon
 import Model exposing (Model)
 import Data.Wallet exposing (Wallet)
 import Update exposing (Msg(Input, Add, FetchBalance, Remove, ToggleErrorExpansion))
+import Data.Currency as Currency exposing (currency)
 
 
 view =
@@ -28,7 +29,7 @@ wallet wallet =
     let
         baseContent =
             [ address wallet.address
-            , balance wallet.balance
+            , balance wallet
             , actions wallet
             ]
 
@@ -48,13 +49,13 @@ address content =
     div [ class "address" ] [ text content ]
 
 
-balance : Maybe Float -> Html msg
-balance bal =
+balance : Wallet -> Html msg
+balance wallet =
     let
         content =
-            case bal of
+            case wallet.balance of
                 Just b ->
-                    (toString b)
+                    (toString b) ++ " " ++ (wallet.address |> currency |> Currency.code)
 
                 Nothing ->
                     "--"

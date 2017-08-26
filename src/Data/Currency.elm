@@ -22,3 +22,19 @@ currency address =
             EthereumClassic
         else
             Bitcoin
+
+
+code : Currency -> String
+code currency =
+    case currency of
+        Bitcoin ->
+            "BTC"
+
+        Litecoin ->
+            "LTC"
+
+        Decred ->
+            "DCR"
+
+        EthereumClassic ->
+            "ETC"
