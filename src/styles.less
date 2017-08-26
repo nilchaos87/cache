@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-
 .stretchItems(@selector, @property, @counter) when (@counter > 0) {
   .stretchItems(@selector, @property, (@counter - 1));
   @{selector}:first-child:nth-last-child(@{counter}), @{selector}:first-child:nth-last-child(@{counter}) ~ @{selector} {
