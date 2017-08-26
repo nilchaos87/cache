@@ -1,6 +1,7 @@
 module Data.Balance exposing (fetch)
 
-import Http exposing (Error)
+import Http exposing (Error, send, get)
+import Json.Decode exposing (Decoder)
 import Data.Balance.Bitcoin as BitcoinBalance
 import Data.Balance.Litecoin as LitecoinBalance
 import Data.Balance.Decred as DecredBalance
@@ -10,15 +11,32 @@ import Data.Currency exposing (Currency(Bitcoin, Litecoin, Decred, EthereumClass
 
 fetch : (String -> Result Error Float -> msg) -> String -> Cmd msg
 fetch msg address =
+    let
+        { endpoint, decoder } =
+            request address
+    in
+        send (msg address) <| get endpoint decoder
+
+
+request : String -> { endpoint : String, decoder : Decoder Float }
+request address =
     case (currency address) of
         Bitcoin ->
-            BitcoinBalance.fetch msg address
+            { endpoint = BitcoinBalance.url address
+            , decoder = BitcoinBalance.decoder
+            }
 
         Litecoin ->
-            LitecoinBalance.fetch msg address
+            { endpoint = LitecoinBalance.url address
+            , decoder = LitecoinBalance.decoder
+            }
 
         Decred ->
-            DecredBalance.fetch msg address
+            { endpoint = DecredBalance.url address
+            , decoder = DecredBalance.decoder
+            }
 
         EthereumClassic ->
-            EthereumClassicBalance.fetch msg address
+            { endpoint = EthereumClassicBalance.url address
+            , decoder = EthereumClassicBalance.decoder
+            }

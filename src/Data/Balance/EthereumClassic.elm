@@ -1,12 +1,6 @@
-module Data.Balance.EthereumClassic exposing (fetch)
+module Data.Balance.EthereumClassic exposing (url, decoder)
 
-import Http exposing (Error, send, get)
 import Json.Decode exposing (Decoder, at, float)
-
-
-fetch : (String -> Result Error Float -> msg) -> String -> Cmd msg
-fetch msg address =
-    send (msg address) <| get (url address) decoder
 
 
 url : String -> String

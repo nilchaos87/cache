@@ -1,14 +1,12 @@
-module Data.Balance.Litecoin exposing (fetch)
+module Data.Balance.Litecoin exposing (url, decoder)
 
-import Http exposing (Error)
 import Data.Balance.ChainSO as ChainSO
 
 
-fetch : (String -> Result Error Float -> msg) -> String -> Cmd msg
-fetch =
-    ChainSO.fetch url
-
-
 url : String -> String
-url address =
-    "https://chain.so/api/v2/get_address_balance/LTC/" ++ address
+url =
+    ChainSO.url "LTC"
+
+
+decoder =
+    ChainSO.decoder

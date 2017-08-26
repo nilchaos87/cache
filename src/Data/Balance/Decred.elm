@@ -1,12 +1,6 @@
-module Data.Balance.Decred exposing (fetch)
+module Data.Balance.Decred exposing (url, decoder)
 
-import Http exposing (Error, send, get)
 import Json.Decode exposing (Decoder, field, float)
-
-
-fetch : (String -> Result Error Float -> msg) -> String -> Cmd msg
-fetch msg address =
-    send (msg address) <| get (url address) decoder
 
 
 url : String -> String

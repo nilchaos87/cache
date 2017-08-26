@@ -1,12 +1,11 @@
-module Data.Balance.ChainSO exposing (fetch)
+module Data.Balance.ChainSO exposing (url, decoder)
 
-import Http exposing (Error, send, get)
 import Json.Decode exposing (Decoder, at, string, fail, succeed, andThen)
 
 
-fetch : (String -> String) -> (String -> Result Error Float -> msg) -> String -> Cmd msg
-fetch url msg address =
-    send (msg address) <| get (url address) decoder
+url : String -> String -> String
+url currency address =
+    String.join "/" [ "https://chain.so/api/v2/get_address_balance", currency, address ]
 
 
 decoder : Decoder Float
