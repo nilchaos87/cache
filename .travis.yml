@@ -4,10 +4,8 @@ node_js:
 install:
   - npm install
 
-script:
-  - npm run build
-
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
+script: npm run build && bash ./deploy.sh
+env:
+  global:
+  - GH_REF: github.com/nilchaos87/cache.git
+  - secure: "i/ktVj7BoMsk3vGTDqPZ29umXDTaXki/3s/PBm6ha9A+CS6neHPlYva6h08omkB5+xdPJyOobNhapRWUI7J94lun+3zBR0zZX7NrpfnAo3LiNWDgCCY4QXrvfMyAwjDM9jryQQJhrS38gdEdGGKzm7CLC8xDo55qpghvSXFZuu6ZNlZPDf/quTe5EoKdHM63AI6TXvZ2/8igayTM8jHF1NeD6VMXrT3Xr7C/Uo+/8m8gTb1G7ykBeNtQSDhcHlXFsL2YqC8ICfi/fV5jZDyosAdJjAGDqrHk7scosvTSuJVBsGGitGVXYYRwWW+Z2GyFLksG7Ie5RrYQJ0+Oz7eDHATSISIiSI1A8YRzkQIMLMzay5DYZzzqv4028/yI5BgNqiaFQkVW/SILeuLPfZWW+skOVDkZIwwbOvKl8m7alsu3QOAcjmlEyryqedQF3SDqvw38LHwhyQb4JebVmNuoiumWRO1okyzuAfhgbDPZv+kd0Ay5zHIGMfS7gmxxm1fpP1x83bMi9jZH4dZ6f7ry2TEIb4bm3oiLJHNn3Wfc1UScJXmY5IuCk7op30V+OYLvXmq4/bBY3RfZ4MrlEY/WKdlrJfDm31928aB49++UgeLeZ2PondxvuPcZ+jW11dir5v+rtTZ5eq+SMtlny80BQRlQtbSauBzl6WZ8rQaLAhs="
