@@ -58,8 +58,8 @@ button {
     .stretchItems(~'.wallet', ~'height', 12, 4);
 }
 
-.applyWalletPalette(@selector, @dark, @light) {
-    .wallet:nth-child(@{selector}) {
+.applyWalletPalette(@n, @dark, @light) {
+    .wallet.wallet-@{n} {
         background: @dark;
         color: @light;
 
@@ -82,10 +82,11 @@ button {
     }
 }
 
-.applyWalletPalette(~'4n+1', #482e00, #c7ad7f);
-.applyWalletPalette(~'4n+2', #021430, #8193af);
-.applyWalletPalette(~'4n+3', #481d00, #c79c7f);
-.applyWalletPalette(~'4n', #002e26, #7fada5);
+.applyWalletPalette(0, #444, #ccc);
+.applyWalletPalette(1, #482e00, #c7ad7f);
+.applyWalletPalette(2, #021430, #8193af);
+.applyWalletPalette(3, #481d00, #c79c7f);
+.applyWalletPalette(4, #002e26, #7fada5);
 
 .wallet {
     button {

@@ -1,4 +1,4 @@
-module Cache.Icon exposing (add, error, refresh, remove)
+module Cache.Icon exposing (add, error, refresh, remove, appearance)
 
 import Html exposing (Html, div, i)
 import Html.Attributes exposing (classList, class)
@@ -35,3 +35,8 @@ refresh spin =
 remove : Html msg
 remove =
     icon [ "trash" ]
+
+
+appearance : Html msg
+appearance =
+    icon [ "paint-brush" ]

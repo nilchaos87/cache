@@ -1,4 +1,4 @@
-port module Update exposing (Msg(Input, Add, UpdateBalance, FetchBalance, Remove, ToggleErrorExpansion), save, update, fetchBalance)
+port module Update exposing (Msg(Input, Add, UpdateBalance, FetchBalance, Remove, ToggleErrorExpansion, RotateClass), save, update, fetchBalance)
 
 import Data.Balance as Balance
 import Data.Wallet exposing (Wallet, wallet)
@@ -13,6 +13,7 @@ type Msg
     | FetchBalance String
     | Remove String
     | ToggleErrorExpansion String
+    | RotateClass String
 
 
 fetchBalance =
@@ -64,6 +65,9 @@ update msg model =
         ToggleErrorExpansion address ->
             ( { model | wallets = List.map (toggleErrorExpansion address) model.wallets }, Cmd.none )
 
+        RotateClass address ->
+            ( { model | wallets = List.map (rotateClass address) model.wallets }, Cmd.none )
+
 
 updateWallet : (Wallet -> Wallet) -> String -> Wallet -> Wallet
 updateWallet update address wallet =
@@ -91,3 +95,18 @@ updateError error =
 toggleErrorExpansion : String -> Wallet -> Wallet
 toggleErrorExpansion =
     updateWallet (\wallet -> { wallet | expandError = not wallet.expandError })
+
+
+rotateClass : String -> Wallet -> Wallet
+rotateClass =
+    updateWallet (\wallet -> { wallet | class = nextClass wallet.class })
+
+
+nextClass : Int -> Int
+nextClass current =
+    case current of
+        4 ->
+            1
+
+        _ ->
+            current + 1

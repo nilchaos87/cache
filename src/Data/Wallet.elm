@@ -10,6 +10,7 @@ type alias Wallet =
     , error : Maybe String
     , expandError : Bool
     , fetchingBalance : Bool
+    , class : Int
     }
 
 
@@ -20,6 +21,7 @@ wallet msg address =
       , error = Nothing
       , expandError = False
       , fetchingBalance = True
+      , class = 0
       }
     , Balance.fetch msg address
     )
