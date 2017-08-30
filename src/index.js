@@ -31,11 +31,11 @@ function wallets(data) {
 
     const [addresses, wallets] = ['addresses', 'wallets'].map(key => JSON.parse(localStorage.getItem(key) || '[]'));
 
-    if (wallets) {
+    if (wallets.length) {
         return wallets;
     }
 
-    if (addresses) {
+    if (addresses.length) {
         return wallets(JSON.stringify(addresses.map(address => ({ address, 'class': 0 }))));
     }
 
