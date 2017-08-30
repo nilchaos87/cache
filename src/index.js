@@ -36,7 +36,7 @@ function wallets(data) {
     }
 
     if (a.length) {
-        return wallets(JSON.stringify(a.map(address => ({ address, 'class': 0 }))));
+        return wallets(a.map(address => ({ address, 'class': 0 })));
     }
 
     return [];
