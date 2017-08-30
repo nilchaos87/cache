@@ -24,12 +24,20 @@ const app = Main.
     .subscribe(wallets);
 
 function wallets(data) {
-    data && localStorage.setItem('wallets', JSON.stringify(data));
+    if (data) {
+        localStorage.setItem('wallets', JSON.stringify(data));
+        return data;
+    }
+
     const [addresses, wallets] = ['addresses', 'wallets'].map(key => JSON.parse(localStorage.getItem(key) || '[]'));
 
-    if (!wallets && addresses) {
+    if (wallets) {
+        return wallets;
+    }
+
+    if (addresses) {
         return wallets(JSON.stringify(addresses.map(address => ({ address, 'class': 0 }))));
     }
 
-    return wallets;
+    return [];
 }
