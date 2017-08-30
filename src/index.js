@@ -29,14 +29,14 @@ function wallets(data) {
         return data;
     }
 
-    const [addresses, wallets] = ['addresses', 'wallets'].map(key => JSON.parse(localStorage.getItem(key) || '[]'));
+    const [a, w] = ['addresses', 'wallets'].map(key => JSON.parse(localStorage.getItem(key) || '[]'));
 
-    if (wallets.length) {
-        return wallets;
+    if (w.length) {
+        return w;
     }
 
-    if (addresses.length) {
-        return wallets(JSON.stringify(addresses.map(address => ({ address, 'class': 0 }))));
+    if (a.length) {
+        return wallets(JSON.stringify(a.map(address => ({ address, 'class': 0 }))));
     }
 
     return [];
