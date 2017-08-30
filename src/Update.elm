@@ -1,7 +1,7 @@
-port module Update exposing (Msg(Input, Add, UpdateBalance, FetchBalance, Remove, ToggleErrorExpansion, RotateClass), save, update, fetchBalance)
+module Update exposing (Msg(Input, Add, UpdateBalance, FetchBalance, Remove, ToggleErrorExpansion, RotateClass), update)
 
 import Data.Balance as Balance
-import Data.Wallet exposing (Wallet, wallet)
+import Data.Wallet exposing (Wallet, new, save)
 import Model exposing (Model)
 import Http
 
@@ -16,18 +16,6 @@ type Msg
     | RotateClass String
 
 
-fetchBalance =
-    Balance.fetch UpdateBalance
-
-
-port save : List String -> Cmd msg
-
-
-saveWallets : List Wallet -> Cmd msg
-saveWallets wallets =
-    List.map (\wallet -> wallet.address) wallets |> save
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -37,12 +25,12 @@ update msg model =
         Add ->
             let
                 newWallet =
-                    model.newAddress |> wallet UpdateBalance
+                    new UpdateBalance model.newAddress
 
                 wallets =
                     List.append model.wallets [ Tuple.first newWallet ]
             in
-                ( { model | wallets = wallets, newAddress = "" }, Cmd.batch [ Tuple.second newWallet, saveWallets wallets ] )
+                ( { model | wallets = wallets, newAddress = "" }, Cmd.batch [ Tuple.second newWallet, save wallets ] )
 
         UpdateBalance address result ->
             case result of
@@ -53,20 +41,24 @@ update msg model =
                     ( { model | wallets = List.map (updateError "Error updating wallet balance" address) model.wallets }, Cmd.none )
 
         FetchBalance address ->
-            ( { model | wallets = List.map (updateFetchingBalance True address) model.wallets }, fetchBalance address )
+            ( { model | wallets = List.map (updateFetchingBalance True address) model.wallets }, Balance.fetch UpdateBalance address )
 
         Remove address ->
             let
                 wallets =
                     List.filter (\wallet -> wallet.address /= address) model.wallets
             in
-                ( { model | wallets = wallets }, saveWallets wallets )
+                ( { model | wallets = wallets }, save wallets )
 
         ToggleErrorExpansion address ->
             ( { model | wallets = List.map (toggleErrorExpansion address) model.wallets }, Cmd.none )
 
         RotateClass address ->
-            ( { model | wallets = List.map (rotateClass address) model.wallets }, Cmd.none )
+            let
+                wallets =
+                    List.map (rotateClass address) model.wallets
+            in
+                ( { model | wallets = wallets }, save wallets )
 
 
 updateWallet : (Wallet -> Wallet) -> String -> Wallet -> Wallet

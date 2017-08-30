@@ -18,7 +18,18 @@ meta.content = 'width=device-width, initial-scale=1';
 document.head.appendChild(meta);
 
 const app = Main.
-    fullscreen({ addresses })
+    fullscreen({ wallets: wallets() })
     .ports
-    .save
-    .subscribe(save);
+    .wallets
+    .subscribe(wallets);
+
+function wallets(data) {
+    data && localStorage.setItem('wallets', JSON.stringify(data));
+    const [addresses, wallets] = ['addresses', 'wallets'].map(key => JSON.parse(localStorage.getItem(key) || '[]'));
+
+    if (!wallets && addresses) {
+        return wallets(JSON.stringify(addresses.map(address => ({ address, 'class': 0 }))));
+    }
+
+    return wallets;
+}
