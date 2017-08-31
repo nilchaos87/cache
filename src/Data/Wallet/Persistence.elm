@@ -40,4 +40,4 @@ encodeWallet { address, class } =
 
 decoder : Decoder (List PersistentWallet)
 decoder =
-    map2 PersistentWallet (field "address" Decode.string) (field "class" Decode.int) |> Decode.list
+    Decode.list <| map2 PersistentWallet (field "address" Decode.string) (field "class" Decode.int)
