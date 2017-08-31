@@ -1,7 +1,7 @@
 port module Data.Wallet.Persistence exposing (PersistentWallet, save, restore)
 
 import Json.Encode as Encode exposing (Value)
-import Json.Decode as Decode exposing (Decoder, decodeValue, map2, field)
+import Json.Decode as Decode exposing (Decoder, decodeValue, map3, field)
 
 
 port wallets : Value -> Cmd msg
@@ -10,6 +10,7 @@ port wallets : Value -> Cmd msg
 type alias PersistentWallet =
     { address : String
     , class : Int
+    , order : Int
     }
 
 
@@ -40,4 +41,12 @@ encodeWallet { address, class } =
 
 decoder : Decoder (List PersistentWallet)
 decoder =
-    Decode.list <| map2 PersistentWallet (field "address" Decode.string) (field "class" Decode.int)
+    Decode.list <| decodeWallet
+
+
+decodeWallet : Decoder PersistentWallet
+decodeWallet =
+    map3 PersistentWallet
+        (field "address" Decode.string)
+        (field "class" Decode.int)
+        (field "order" Decode.int)

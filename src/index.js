@@ -32,7 +32,7 @@ function wallets(data) {
     const [a, w] = ['addresses', 'wallets'].map(key => JSON.parse(localStorage.getItem(key) || '[]'));
 
     if (w.length) {
-        return w;
+        return w.map(w => Object.assign({ order: 0 }, w));
     }
 
     if (a.length) {

@@ -6,7 +6,7 @@ import Html.Events exposing (onInput, onClick)
 import Cache.Icon as Icon
 import Model exposing (Model)
 import Data.Wallet exposing (Wallet)
-import Update exposing (Msg(Input, Add, FetchBalance, Remove, ToggleErrorExpansion, RotateClass))
+import Update exposing (Msg(Input, Add, FetchBalance, Remove, ToggleErrorExpansion, RotateClass, MoveUp, MoveDown))
 import Data.Currency as Currency exposing (currency)
 
 
@@ -84,6 +84,8 @@ actions { address, fetchingBalance } =
         [ button [ onClick (FetchBalance address) ] [ Icon.refresh fetchingBalance ]
         , button [ onClick <| Remove address ] [ Icon.remove ]
         , button [ onClick <| RotateClass address ] [ Icon.appearance ]
+        , button [ onClick <| MoveUp address ] [ Icon.up ]
+        , button [ onClick <| MoveDown address ] [ Icon.down ]
         ]
 
 

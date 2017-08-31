@@ -1,4 +1,4 @@
-module Cache.Icon exposing (add, error, refresh, remove, appearance)
+module Cache.Icon exposing (add, error, refresh, remove, appearance, up, down)
 
 import Html exposing (Html, div, i)
 import Html.Attributes exposing (classList, class)
@@ -40,3 +40,13 @@ remove =
 appearance : Html msg
 appearance =
     icon [ "paint-brush" ]
+
+
+up : Html msg
+up =
+    icon [ "caret-up" ]
+
+
+down : Html msg
+down =
+    icon [ "caret-down" ]

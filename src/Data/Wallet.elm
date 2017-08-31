@@ -13,6 +13,7 @@ type alias Wallet =
     , expandError : Bool
     , fetchingBalance : Bool
     , class : Int
+    , order : Int
     }
 
 
@@ -24,6 +25,7 @@ new msg address =
       , expandError = False
       , fetchingBalance = True
       , class = 0
+      , order = 0
       }
     , Balance.fetch msg address
     )
@@ -35,8 +37,8 @@ save wallets =
 
 
 toPersistentWallet : Wallet -> PersistentWallet
-toPersistentWallet { address, class } =
-    { address = address, class = class }
+toPersistentWallet { address, class, order } =
+    { address = address, class = class, order = order }
 
 
 restore : (String -> Result Error Float -> msg) -> Value -> ( List Wallet, Cmd msg )
@@ -52,11 +54,12 @@ restore msg data =
 
 
 fromPersistentWallet : PersistentWallet -> Wallet
-fromPersistentWallet { address, class } =
+fromPersistentWallet { address, class, order } =
     { address = address
     , balance = Nothing
     , error = Nothing
     , expandError = False
     , fetchingBalance = True
     , class = class
+    , order = order
     }

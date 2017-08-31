@@ -1,4 +1,4 @@
-module Update exposing (Msg(Input, Add, UpdateBalance, FetchBalance, Remove, ToggleErrorExpansion, RotateClass), update)
+module Update exposing (Msg(Input, Add, UpdateBalance, FetchBalance, Remove, ToggleErrorExpansion, RotateClass, MoveUp, MoveDown), update)
 
 import Data.Balance as Balance
 import Data.Wallet exposing (Wallet, new, save)
@@ -14,6 +14,8 @@ type Msg
     | Remove String
     | ToggleErrorExpansion String
     | RotateClass String
+    | MoveUp String
+    | MoveDown String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -60,6 +62,22 @@ update msg model =
             in
                 ( { model | wallets = wallets }, save wallets )
 
+        MoveUp address ->
+            let
+                wallets =
+                    List.sortBy (.order >> negate) <|
+                        List.map (moveUp address) model.wallets
+            in
+                ( { model | wallets = wallets }, save wallets )
+
+        MoveDown address ->
+            let
+                wallets =
+                    List.sortBy (.order >> negate) <|
+                        List.map (moveDown address) model.wallets
+            in
+                ( { model | wallets = wallets }, save wallets )
+
 
 updateWallet : (Wallet -> Wallet) -> String -> Wallet -> Wallet
 updateWallet update address wallet =
@@ -102,3 +120,13 @@ nextClass current =
 
         _ ->
             current + 1
+
+
+moveUp : String -> Wallet -> Wallet
+moveUp =
+    updateWallet (\wallet -> { wallet | order = wallet.order + 1 })
+
+
+moveDown : String -> Wallet -> Wallet
+moveDown =
+    updateWallet (\wallet -> { wallet | order = wallet.order - 1 })
