@@ -2,6 +2,7 @@ module Update exposing (Msg(Input, Add, UpdateBalance, FetchBalance, Remove, Tog
 
 import Data.Balance as Balance
 import Data.Wallet exposing (Wallet, new, save)
+import Data.Wallet.List exposing (moveUp, moveDown)
 import Model exposing (Model)
 import Http
 
@@ -11,11 +12,11 @@ type Msg
     | Add
     | UpdateBalance String (Result Http.Error Float)
     | FetchBalance String
-    | Remove String
+    | Remove Wallet
     | ToggleErrorExpansion String
     | RotateClass String
-    | MoveUp String
-    | MoveDown String
+    | MoveUp Wallet
+    | MoveDown Wallet
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -27,7 +28,7 @@ update msg model =
         Add ->
             let
                 newWallet =
-                    new UpdateBalance model.newAddress
+                    new UpdateBalance model.newAddress (List.length model.wallets)
 
                 wallets =
                     List.append model.wallets [ Tuple.first newWallet ]
@@ -45,10 +46,18 @@ update msg model =
         FetchBalance address ->
             ( { model | wallets = List.map (updateFetchingBalance True address) model.wallets }, Balance.fetch UpdateBalance address )
 
-        Remove address ->
+        Remove wallet ->
             let
                 wallets =
-                    List.filter (\wallet -> wallet.address /= address) model.wallets
+                    model.wallets
+                        |> List.filter (\w -> w.address /= wallet.address)
+                        |> List.map
+                            (\w ->
+                                if (w.order > wallet.order) then
+                                    { w | order = w.order - 1 }
+                                else
+                                    w
+                            )
             in
                 ( { model | wallets = wallets }, save wallets )
 
@@ -62,19 +71,17 @@ update msg model =
             in
                 ( { model | wallets = wallets }, save wallets )
 
-        MoveUp address ->
+        MoveUp wallet ->
             let
                 wallets =
-                    List.sortBy (.order >> negate) <|
-                        List.map (moveUp address) model.wallets
+                    moveUp wallet model.wallets
             in
                 ( { model | wallets = wallets }, save wallets )
 
-        MoveDown address ->
+        MoveDown wallet ->
             let
                 wallets =
-                    List.sortBy (.order >> negate) <|
-                        List.map (moveDown address) model.wallets
+                    moveDown wallet model.wallets
             in
                 ( { model | wallets = wallets }, save wallets )
 
@@ -120,13 +127,3 @@ nextClass current =
 
         _ ->
             current + 1
-
-
-moveUp : String -> Wallet -> Wallet
-moveUp =
-    updateWallet (\wallet -> { wallet | order = wallet.order + 1 })
-
-
-moveDown : String -> Wallet -> Wallet
-moveDown =
-    updateWallet (\wallet -> { wallet | order = wallet.order - 1 })

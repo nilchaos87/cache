@@ -17,15 +17,15 @@ type alias Wallet =
     }
 
 
-new : (String -> Result Error Float -> msg) -> String -> ( Wallet, Cmd msg )
-new msg address =
+new : (String -> Result Error Float -> msg) -> String -> Int -> ( Wallet, Cmd msg )
+new msg address order =
     ( { address = address
       , balance = Nothing
       , error = Nothing
       , expandError = False
       , fetchingBalance = True
       , class = 0
-      , order = 0
+      , order = order
       }
     , Balance.fetch msg address
     )

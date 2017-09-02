@@ -21,7 +21,10 @@ shell model =
 
 wallets : List Wallet -> Html Msg
 wallets list =
-    List.map wallet list |> div [ class "wallets" ]
+    list
+        |> List.sortBy .order
+        |> List.map wallet
+        |> div [ class "wallets" ]
 
 
 wallet : Wallet -> Html Msg
@@ -79,13 +82,13 @@ error message expand address =
 
 
 actions : Wallet -> Html Msg
-actions { address, fetchingBalance } =
+actions wallet =
     div [ class "actions" ]
-        [ button [ onClick (FetchBalance address) ] [ Icon.refresh fetchingBalance ]
-        , button [ onClick <| Remove address ] [ Icon.remove ]
-        , button [ onClick <| RotateClass address ] [ Icon.appearance ]
-        , button [ onClick <| MoveUp address ] [ Icon.up ]
-        , button [ onClick <| MoveDown address ] [ Icon.down ]
+        [ button [ onClick (FetchBalance wallet.address) ] [ Icon.refresh wallet.fetchingBalance ]
+        , button [ onClick <| Remove wallet ] [ Icon.remove ]
+        , button [ onClick <| RotateClass wallet.address ] [ Icon.appearance ]
+        , button [ onClick <| MoveUp wallet ] [ Icon.up ]
+        , button [ onClick <| MoveDown wallet ] [ Icon.down ]
         ]
 
 
