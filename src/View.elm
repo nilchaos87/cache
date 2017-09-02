@@ -33,16 +33,24 @@ wallet wallet =
         baseContent =
             [ address wallet.address
             , balance wallet
-            , actions wallet
             ]
 
-        content =
+        contentWithActions =
+            if (wallet.expandError) then
+                baseContent
+            else
+                List.append baseContent [ actions wallet ]
+
+        contentWithError =
             case wallet.error of
                 Just message ->
-                    List.append baseContent [ error message wallet.expandError wallet.address ]
+                    List.append contentWithActions [ error message wallet.expandError wallet.address ]
 
                 Nothing ->
-                    baseContent
+                    contentWithActions
+
+        content =
+            contentWithError
     in
         div [ class ("wallet wallet-" ++ (toString wallet.class)) ] content
 
