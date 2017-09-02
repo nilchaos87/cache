@@ -11,10 +11,10 @@ type Msg
     = Input String
     | Add
     | UpdateBalance String (Result Http.Error Float)
-    | FetchBalance String
+    | FetchBalance Wallet
     | Remove Wallet
     | ToggleErrorExpansion String
-    | RotateClass String
+    | RotateClass Wallet
     | MoveUp Wallet
     | MoveDown Wallet
 
@@ -43,17 +43,17 @@ update msg model =
                 Err _ ->
                     ( { model | wallets = List.map (updateError "Error updating wallet balance" address) model.wallets }, Cmd.none )
 
-        FetchBalance address ->
+        FetchBalance { address } ->
             ( { model | wallets = List.map (updateFetchingBalance True address) model.wallets }, Balance.fetch UpdateBalance address )
 
-        Remove wallet ->
+        Remove { order, address } ->
             let
                 wallets =
                     model.wallets
-                        |> List.filter (\w -> w.address /= wallet.address)
+                        |> List.filter (\w -> w.address /= address)
                         |> List.map
                             (\w ->
-                                if (w.order > wallet.order) then
+                                if (w.order > order) then
                                     { w | order = w.order - 1 }
                                 else
                                     w
@@ -64,7 +64,7 @@ update msg model =
         ToggleErrorExpansion address ->
             ( { model | wallets = List.map (toggleErrorExpansion address) model.wallets }, Cmd.none )
 
-        RotateClass address ->
+        RotateClass { address } ->
             let
                 wallets =
                     List.map (rotateClass address) model.wallets

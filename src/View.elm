@@ -83,13 +83,20 @@ error message expand address =
 
 actions : Wallet -> Html Msg
 actions wallet =
-    div [ class "actions" ]
-        [ button [ onClick (FetchBalance wallet.address) ] [ Icon.refresh wallet.fetchingBalance ]
-        , button [ onClick <| Remove wallet ] [ Icon.remove ]
-        , button [ onClick <| RotateClass wallet.address ] [ Icon.appearance ]
-        , button [ onClick <| MoveUp wallet ] [ Icon.up ]
-        , button [ onClick <| MoveDown wallet ] [ Icon.down ]
-        ]
+    div [ class "actions" ] <|
+        List.map
+            (\a -> a wallet)
+            [ action FetchBalance <| Icon.refresh wallet.fetchingBalance
+            , action Remove Icon.remove
+            , action RotateClass Icon.appearance
+            , action MoveUp Icon.up
+            , action MoveDown Icon.down
+            ]
+
+
+action : (Wallet -> Msg) -> Html Msg -> Wallet -> Html Msg
+action msg icon wallet =
+    button [ onClick <| msg wallet ] [ icon ]
 
 
 newWallet : String -> Html Msg

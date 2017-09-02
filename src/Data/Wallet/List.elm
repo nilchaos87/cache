@@ -9,12 +9,18 @@ type alias Wallets =
 
 moveUp : Wallet -> Wallets -> Wallets
 moveUp { order } wallets =
-    List.map (reorder order (order - 1)) wallets
+    if (order == 0) then
+        wallets
+    else
+        List.map (reorder order (order - 1)) wallets
 
 
 moveDown : Wallet -> Wallets -> Wallets
 moveDown { order } wallets =
-    List.map (reorder order (order + 1)) wallets
+    if (order == (List.length wallets) - 1) then
+        wallets
+    else
+        List.map (reorder order (order + 1)) wallets
 
 
 reorder : Int -> Int -> Wallet -> Wallet
